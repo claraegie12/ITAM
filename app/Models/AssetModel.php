@@ -10,7 +10,7 @@ class AssetModel extends Model
     use HasFactory;
     protected $table = 'asset_models';
     protected $primaryKey = 'id';
-
+    
     protected $fillable = [
         'Model_name','Model_category'
     ];

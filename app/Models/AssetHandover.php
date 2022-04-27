@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AssetHandover extends Model
 {
     use HasFactory;
+    protected $table = 'asset_handovers';
+    protected $primaryKey = 'id';
+
+    protected $fillable = [
+        'Asset_id','Pegawai_id','Handover_notes', 'Handover_date', 'Handover_by'
+    ];
 }

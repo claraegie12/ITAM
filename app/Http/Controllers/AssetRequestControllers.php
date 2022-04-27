@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AssetModel;
-use Illuminate\Support\Facades\Hash;
+use App\Models\AssetRequest;
 
-class AssetModelControllers extends Controller
+class AssetRequestControllers extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +15,7 @@ class AssetModelControllers extends Controller
     public function index()
     {
         //
-        $AssetModels = AssetModel::OrderBy('Model_name')->get();
-        return view('asset_model.index', compact('AssetModels'));
+        
     }
 
     /**
@@ -28,7 +26,6 @@ class AssetModelControllers extends Controller
     public function create()
     {
         //
-        return view('asset_model.create');
     }
 
     /**
@@ -40,13 +37,6 @@ class AssetModelControllers extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'Model_name' => 'required',
-            'Model_category' => 'required'
-        ]);
-        AssetModel::create($request->all());
-
-        return redirect()->route('assetmodel.index')->with('succes','Data Berhasil di Input');
     }
 
     /**
@@ -69,8 +59,6 @@ class AssetModelControllers extends Controller
     public function edit($id)
     {
         //
-        $AssetModel = AssetModel::find($id);
-        return view('asset_model.edit', compact('AssetModel'));
     }
 
     /**
@@ -83,19 +71,6 @@ class AssetModelControllers extends Controller
     public function update(Request $request, $id)
     {
         //
-        $request->validate([
-            'Model_name' => 'required',
-            'Model_category' => 'required'
-        ]);
-        //echo $AssetModel;
-
-        AssetModel::where('id', $id)->update([
-            'Model_name'=> $request->Model_name,
-            'Model_category'=> $request->Model_category
-        ]);
-
-        return redirect()->route('assetmodel.index')->with('succes','Data Berhasil di Update');
-
     }
 
     /**

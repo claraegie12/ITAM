@@ -25,24 +25,13 @@
             <th width="280px"class="text-center">Category</th>
             <th class="text-center">Action</th>
         </tr>
-        @foreach ($Models as $model)
+        @foreach ($AssetModels as $AssetModel)
         <tr>
             <td class="text-center">{{$loop->iteration}}</td>
-            <td>{{ $model->Model_name }}</td>
-            <td>{{ $model->Model_category }}</td>
+            <td>{{ $AssetModel->Model_name }}</td>
+            <td>{{ $AssetModel->Model_category }}</td>
             <td class="text-center">
-                <a class="btn btn-primary btn-sm" href="{{ route('assetmodel.edit',$model->id) }}">Edit</a>
-                {{-- <form action="{{ route('pegawai.destroy',$pegawai->id) }}" method="POST"> --}}
-
-                   {{-- <a class="btn btn-info btn-sm" href="{{ route('pegawai.show',$pegawai->id) }}">Details</a> --}}
-
-                    
-
-                    {{-- @csrf --}}
-                    {{-- @method('DELETE') --}}
-
-                    {{-- <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button> --}}
-                {{-- </form> --}}
+                <a class="btn btn-primary btn-sm" href="{{ route('assetmodel.edit',$AssetModel->id) }}">Edit</a>
             </td>
         </tr>
         @endforeach

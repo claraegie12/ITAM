@@ -23,9 +23,9 @@
         </div>
     @endif
 
-    {{-- <form action="{{ route('assetmodel.update',$Models->id) }}" method="POST">
+    <form action="{{ route('assetmodel.update',$AssetModel->id) }}" method="POST">
         @csrf
-        @method('PUT') --}}
+        @method('PUT') 
 
         <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -46,5 +46,5 @@
         </div>
     </div>
 
-    {{-- </form> --}}
+    </form> 
 @endsection
