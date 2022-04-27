@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaisController;
 use App\Http\Controllers\BranchControllers;
+use App\Http\Controllers\AssetModelControllers;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,6 +26,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('pegawai',PegawaisController::class);
 
 Route::resource('branch',BranchControllers::class);
+
+Route::resource('assetmodel',AssetModelControllers::class);
 
 
 
