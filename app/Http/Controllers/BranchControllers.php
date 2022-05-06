@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Branch;
+use Yajra\DataTables\DataTables;
 
 class BranchControllers extends Controller
 {
@@ -17,6 +18,20 @@ class BranchControllers extends Controller
         //
         $Branches = Branch::OrderBy('Name')->get();
         return view('branch.index', compact('Branches'));
+    }
+
+    public function getBranches(Request $request) {
+        if ($request->ajax()) {
+            $data = Branch::latest()->get();
+            return Datatables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function($row){
+                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $actionBtn;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
     }
 
     /**

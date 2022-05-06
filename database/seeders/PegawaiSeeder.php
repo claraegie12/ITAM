@@ -15,6 +15,6 @@ class PegawaiSeeder extends Seeder
     public function run()
     {
         //
-        pegawai::factory(10)->create();
+        pegawai::factory(100)->create();
     }
 }

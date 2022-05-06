@@ -1,6 +1,7 @@
-@extends('template')
+@extends('layouts.app')
 
 @section('content')
+    
     <div class="row mt-5 mb-5">
         <div class="col-lg-12 margin-tb">
             <div class="float-left">
@@ -18,37 +19,47 @@
     </div>
     @endif
 
-    <table class="table table-bordered">
-        <tr>
-            <th width="20px" class="text-center">No</th>
-            <th width="280px"class="text-center">Branch</th>
-            <th width="280px"class="text-center">Phone</th>
-            <th width="480px"class="text-center">Alamat</th>
-            <th class="text-center">Action</th>
-        </tr>
-        @foreach ($Branches as $branch)
-        <tr>
-            <td class="text-center">{{$loop->iteration}}</td>
-            <td>{{ $branch->Name }}</td>
-            <td>{{ $branch->Phone }}</td>
-            <td>{{ $branch->Alamat }}</td>
-            <td class="text-center">
-                <a class="btn btn-primary btn-sm" href="{{ route('branch.edit',$branch->id) }}">Edit</a>
-                {{-- <form action="{{ route('pegawai.destroy',$pegawai->id) }}" method="POST"> --}}
-
-                   {{-- <a class="btn btn-info btn-sm" href="{{ route('pegawai.show',$pegawai->id) }}">Details</a> --}}
-
-                    
-
-                    {{-- @csrf --}}
-                    {{-- @method('DELETE') --}}
-
-                    {{-- <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button> --}}
-                {{-- </form> --}}
-            </td>
-        </tr>
-        @endforeach
-    </table>
-
+		<table id="dataTable" class="table table-bordered">
+				<thead>
+						<tr>
+								<th>No</th>
+								<th>Nama</th>
+								<th>Phone</th>
+								<th>Alamat</th>
+								<th>Action</th>
+						</tr>
+				</thead>
+				<tbody>
+				</tbody>
+		</table>
 
 @endsection
+
+@push('scripts')
+	<link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>  
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript">
+    $(document).ready(function() { 
+			var table = $('#dataTable').DataTable({
+              processing: true,
+              serverSide: true,
+              ajax: "{{ route('branch.list') }}",
+              columns: [
+                  {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                  {data: 'Name', name: 'Name'},
+                  {data: 'Phone', name: 'Phone'},
+									{data: 'Alamat', name: 'Alamat'},
+                  {
+                      data: 'action', 
+                      name: 'action', 
+                      orderable: true, 
+                      searchable: true
+                  },
+              ]
+          });
+    });
+	</script>
+@endpush
