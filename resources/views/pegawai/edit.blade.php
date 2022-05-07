@@ -61,6 +61,20 @@
                 {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content">{{ $pegawai->Jabatan }}</textarea> --}}
             </div>
         </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Departemen:</strong>
+                <select class="form-control" name="bagian" id="bagian">
+                    @foreach ($bagians as $bagian)
+                        @if($bagian->Name == $pegawai->bagian)
+                            <option selected="selected" value="{{ $bagian->Name }}">{{ $bagian->Name }}</option>
+                        @else
+                            <option value="{{ $bagian->Name }}">{{ $bagian->Name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+        </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary">Update</button>
         </div>

@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+
+
 class AssetApproval extends Model
 {
     use HasFactory;
@@ -12,6 +14,10 @@ class AssetApproval extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'Request_id','Contract_id','Approval', 'Approval_date', 'Approved_by'
+        'Request_id','Contract_id','Approval', 'Approval_date', 'Approved_by','Description'
     ];
+    public function AssetRequest()
+    {
+        return $this->hasOne('App\Models\AssetRequest','id','Request_id');
+    }
 }

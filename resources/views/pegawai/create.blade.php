@@ -61,6 +61,19 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
+                <strong>Departemen:</strong>
+                <select class="form-control" name="bagian" id="bagian">
+                    <option value = "0">Pilih Departemen</option>
+                    @foreach ($bagians as $bagian)
+                    <option value="{{ $bagian->Name }}">{{ $bagian->Name }}</option>
+                    @endforeach
+                </select>
+                {{-- <input type="text" name="Branch" class="form-control" placeholder="Cabang"> --}}
+                {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content"></textarea> --}}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
                 <strong>Tanggal Bergabung:</strong>  
                 <input type="text" name="Join_date" class="form-control" placeholder="Tanggal Bergabung">
                 {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content"></textarea> --}}

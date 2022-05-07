@@ -3,7 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaisController;
 use App\Http\Controllers\BranchControllers;
+use App\Http\Controllers\ContractControllers;
+use App\Http\Controllers\VendorControllers;
 use App\Http\Controllers\AssetModelControllers;
+use App\Http\Controllers\AssetRequestControllers;
+use App\Http\Controllers\AssetApprovalControllers;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,10 +29,12 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::resource('pegawai',PegawaisController::class);
-
 Route::resource('branch',BranchControllers::class);
 
+Route::resource('vendor',VendorControllers::class);
+Route::resource('contract',ContractControllers::class);
+
 Route::resource('assetmodel',AssetModelControllers::class);
-
-
+Route::resource('assetrequest',AssetRequestControllers::class);
+Route::resource('assetapproval',AssetApprovalControllers::class);
 

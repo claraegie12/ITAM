@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatepegawaiRequest;
 use App\Models\pegawai;
 use Illuminate\Http\Request;
 use App\Models\Branch;
+use App\Models\Bagian;
 
 
 class PegawaisController extends Controller
@@ -33,7 +34,8 @@ class PegawaisController extends Controller
     {
         //
         $branches = Branch::OrderBy('Name', 'ASC')->get();
-        return view('pegawai.create',compact('branches'));
+        $bagians = Bagian::OrderBy('Name', 'ASC')->get();
+        return view('pegawai.create',compact('branches','bagians'));
     }
 
     /**
@@ -78,7 +80,8 @@ class PegawaisController extends Controller
     {
         //
         $branches = Branch::OrderBy('Name', 'ASC')->get();
-        return view('pegawai.edit', compact('pegawai','branches'));
+        $bagians = Bagian::OrderBy('Name', 'ASC')->get();
+        return view('pegawai.edit', compact('pegawai','branches','bagians'));
     }
 
     /**

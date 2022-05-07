@@ -1,3 +1,4 @@
+
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Nunito');
 
@@ -6,3 +7,43 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+//Sidebar
+// @import './nav/sidebar.scss';
+
+//Layout
+// @import './nav/layout.scss';
+
+// //FONTAWESOME
+// @import "~font-awesome/scss/font-awesome.scss";
+
+/*
+Template Name: Admin Pro Admin
+Author: Wrappixel
+Email: niravjoshi87@gmail.com
+File: scss
+*/
+/**
+ * Table Of Content
+ *
+ * 	1. Globals
+ *	2. Headers
+ *	3. Navigations
+ *	4. Banners
+ *	5. Footers
+ *	6. app
+ *	7. Widgets
+ *	8. Custom Templates
+ */
+ 
+ @import './theme/variable'; 
+ @import './theme/app';
+ @import './theme/sidebar';
+ @import './theme/pages/pages'; 
+ @import './theme/icons/font-awesome/css/font-awesome.min.css';
+ @import './theme/widgets/widgets';
+ @import './theme/grid';
+ @import './theme/responsive'; 
+//  @import '../css/spinners.css'; 
+//  @import '../css/animate.css';     
+

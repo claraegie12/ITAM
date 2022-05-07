@@ -12,7 +12,7 @@ class pegawai extends Model
     protected $table = 'pegawais';
     protected $primaryKey = 'id';
 
-    protected $fillable = ['Name', 'NIK_pegawai', 'Branch', 'Jabatan', 'Join_date', 'Resign_date', 'created_at', 'updated_at'];
+    protected $fillable = ['Name', 'NIK_pegawai', 'Branch', 'Jabatan', 'Join_date', 'Resign_date', 'created_at', 'updated_at' , 'bagian'];
 
     public function Branches()
     {
