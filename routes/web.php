@@ -8,6 +8,9 @@ use App\Http\Controllers\VendorControllers;
 use App\Http\Controllers\AssetModelControllers;
 use App\Http\Controllers\AssetRequestControllers;
 use App\Http\Controllers\AssetApprovalControllers;
+use App\Http\Controllers\AssetControllers;
+use App\Http\Controllers\AssetHandoverControllers;
+use App\Http\Controllers\DisposalRequestControllers;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +40,10 @@ Route::resource('contract',ContractControllers::class);
 Route::resource('assetmodel',AssetModelControllers::class);
 Route::resource('assetrequest',AssetRequestControllers::class);
 Route::resource('assetapproval',AssetApprovalControllers::class);
+Route::resource('asset',AssetControllers::class);
+Route::resource('assethandover',AssetHandoverControllers::class);
+// Route::get("edit_asset", [SiteController::class, "edit_asset"]);
+
+Route::resource('disposalrequest',DisposalRequestControllers::class);
+
 

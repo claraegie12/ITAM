@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\AssetRequest;
-use App\Models\AssetApproval;
-use App\Models\AssetModel;
+use App\Models\Asset;
+use App\Models\DisposalRequest;
 use Carbon\Carbon;
 
-class AssetRequestControllers extends Controller
+class DisposalRequestControllers extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,8 +17,8 @@ class AssetRequestControllers extends Controller
     public function index()
     {
         //
-        $AssetRequests = AssetRequest::OrderBy('id')->get();
-        return view('assetrequest.index', compact('AssetRequests'));
+        $Disposals = DisposalRequest::where('Approval','=','0')->get();
+        return view('disposalrequest.index', compact('Disposals'));
     }
 
     /**
@@ -30,8 +29,7 @@ class AssetRequestControllers extends Controller
     public function create()
     {
         //
-        $AssetModels = AssetModel::OrderBy('Model_name', 'ASC')->get();
-        return view('assetrequest.create',compact('AssetModels'));
+        
     }
 
     /**
@@ -43,34 +41,22 @@ class AssetRequestControllers extends Controller
     public function store(Request $request)
     {
         //
-        $request->validate([
-            'Asset_model_id' => 'required',
-            'Qty' => 'required',
-            'Description' => 'required'
-        ]);
-        
-       // AssetModel::create($request->all());
-        $assetRequest = AssetRequest::create([
+        DisposalRequest::create([
             'Asset_id' => $request->Asset_id, 
-            'Asset_model_id' => $request->Asset_model_id, 
-            'Qty'=> $request->Qty, 
-            'Request_date' => Carbon::now()->format('Y-m-d'),  
-            'Description' => $request->Description, 
-            'Created_by' => $request->Created_by
+            'Notes' => $request->Notes,
+            'Approval' => '0', 
+            'Approval_date' => Carbon::now()->format('Y-m-d'), 
+            'Approval_by' => ' ', 
+            'Disposal_date' => Carbon::now()->format('Y-m-d'), 
+            'Disposal_by' => $request->Disposal_by
         ]);
 
-        AssetApproval::create([
-            'Request_id' => $assetRequest->id, 
-            'Contract_id' => '0', 
-            'Approval'=> '0', 
-            'Approval_date' => Carbon::now()->format('Y-m-d'),  
-            'Approved_by' => '',
-            'Description' => '',
-            'flag' => '0',
-            'invoice_number' => ' '
+        Asset::where('id', $request->Asset_id)->update([
+            'Jenis_asset' => 'Disposal'
         ]);
 
-        return redirect()->route('assetrequest.index')->with('succes','Data Berhasil di Input');
+        return redirect()->route('assethandover.index')->with('succes','Data Berhasil di Update');
+
     }
 
     /**
@@ -93,6 +79,8 @@ class AssetRequestControllers extends Controller
     public function edit($id)
     {
         //
+        $Asset = Asset::find($id);
+        return view('disposalrequest.create', compact('Asset'));
     }
 
     /**
@@ -116,6 +104,5 @@ class AssetRequestControllers extends Controller
     public function destroy($id)
     {
         //
-        
     }
 }

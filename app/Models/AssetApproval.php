@@ -14,10 +14,16 @@ class AssetApproval extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'Request_id','Contract_id','Approval', 'Approval_date', 'Approved_by','Description'
+        'Request_id','Contract_id','Approval', 'Approval_date', 'Approved_by','Description','invoice_number', 'flag'
     ];
+    
     public function AssetRequest()
     {
         return $this->hasOne('App\Models\AssetRequest','id','Request_id');
+    }
+
+    public function Contract()
+    {
+        return $this->hasOne('App\Models\Contract','id','Contract_id');
     }
 }

@@ -14,4 +14,9 @@ class DisposalRequest extends Model
     protected $fillable = [
         'Asset_id','Notes','Approval', 'Approval_date', 'Approval_by', 'Disposal_date', 'Disposal_by'
     ];
+
+    public function Asset()
+    {
+        return $this->hasOne('App\Models\Asset','id','Asset_id');
+    }
 }

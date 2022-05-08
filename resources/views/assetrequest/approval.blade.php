@@ -54,7 +54,11 @@
                 ?>
             </td>
             <td class="text-center">
-                <a class="btn btn-primary btn-sm" href="{{ route('assetapproval.edit',$AssetRequest->AssetApproval->id) }}">Edit</a>
+                <?php if($AssetRequest->AssetApproval->Approval == 0) { ?>
+                    <a class="btn btn-primary btn-sm" href="{{ route('assetapproval.edit', $AssetRequest->AssetApproval->id) }}">Edit</a>
+                <?php } else { ?>
+                    <a class="btn btn-info btn-sm" href="{{ route('assetapproval.show',$AssetRequest->AssetApproval->id) }}">Details</a>
+                <?php } ?>
                 {{-- <a class="btn btn-info btn-sm" href="{{ route('pegawai.show',$pegawai->id) }}">Details</a> --}}
                 
             </td>

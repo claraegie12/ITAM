@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Asset;
+use App\Models\AssetApproval;
+use Carbon\Carbon;
 
 class AssetControllers extends Controller
 {
@@ -14,6 +17,12 @@ class AssetControllers extends Controller
     public function index()
     {
         //
+        $Assets = AssetApproval::where([
+            ['Approval', '=', '1'],
+            ['flag', '=', '1']
+        ])->OrderBy('id')->get();
+        
+        return view('asset.index', compact('Assets'));
     }
 
     /**
@@ -21,9 +30,10 @@ class AssetControllers extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id)
     {
         //
+        
     }
 
     /**
@@ -35,6 +45,22 @@ class AssetControllers extends Controller
     public function store(Request $request)
     {
         //
+        if($request->flag == '0'){
+            Asset::where('asset_approval_id', $request->id)->update([
+                'Jenis_asset' => $request->Jenis_asset,
+                'Power' => $request->Power, 
+                'Width' => $request->Width, 
+                'Height' => $request->Height
+            ]);
+        }
+        else{
+            Asset::where('asset_approval_id', $request->id)->update([
+                'Power' => $request->Power, 
+                'Width' => $request->Width, 
+                'Height' => $request->Height
+            ]);
+        }
+        return redirect()->route('asset.index')->with('succes','Data Berhasil di Update');
     }
 
     /**
@@ -46,6 +72,9 @@ class AssetControllers extends Controller
     public function show($id)
     {
         //
+        $AssetApproval = AssetApproval::find($id);
+        $Asset = Asset::where('asset_approval_id','=',$id)->first();
+        return view('asset.create', compact('AssetApproval','Asset'));
     }
 
     /**
@@ -57,6 +86,16 @@ class AssetControllers extends Controller
     public function edit($id)
     {
         //
+        $Assets = Asset::where('asset_approval_id','=',$id)->get();
+        $Item = Asset::where('asset_approval_id','=',$id)->first();
+        return view('asset.edit', compact('Assets','Item'));
+    }
+
+    public function edit_asset($id)
+    {
+        //
+        $Asset = Asset::find($id);
+        // return view('asset.edit', compact('Asset'));
     }
 
     /**

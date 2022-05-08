@@ -14,4 +14,9 @@ class AssetHandover extends Model
     protected $fillable = [
         'Asset_id','Pegawai_id','Handover_notes', 'Handover_date', 'Handover_by'
     ];
+
+    public function Pegawai()
+    {
+        return $this->hasOne('App\Models\pegawai','id','Pegawai_id');
+    }
 }
