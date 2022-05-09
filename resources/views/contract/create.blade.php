@@ -57,9 +57,9 @@
                 <strong>Aquisition Method:</strong>
                 <select class="form-control" name="Aquisition_method" id="Aquisition_method">
                     <option value = "0">Pilih Metode</option>
-                    <option value = "Metode 1">Metode 1</option>
-                    <option value = "Metode 2">Metode 2</option>
-                    <option value = "Metode 3">Metode 3</option>
+                    <option value = "Purchase">Purchase</option>
+                    <option value = "Financial Lease">Financial Lease</option>
+                    <option value = "Operational Lease">Operational Lease</option>
                     {{-- @foreach ($vendors as $vendor) --}}
                     {{-- <option value="{{ $vendor->id }}">{{ $vendor->Vendor_name }}</option> --}}
                     {{-- @endforeach --}}

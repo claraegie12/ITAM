@@ -16,7 +16,7 @@ class ContractControllers extends Controller
     public function index()
     {
         //
-        $contracts = Contract::OrderBy('created_date')->get();
+        $contracts = Contract::get();
 
         return view('contract.index', compact('contracts'));
     }
