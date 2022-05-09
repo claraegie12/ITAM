@@ -11,6 +11,8 @@ use App\Http\Controllers\AssetApprovalControllers;
 use App\Http\Controllers\AssetControllers;
 use App\Http\Controllers\AssetHandoverControllers;
 use App\Http\Controllers\DisposalRequestControllers;
+use App\Http\Controllers\DisposalAssetControllers;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -45,5 +47,5 @@ Route::resource('assethandover',AssetHandoverControllers::class);
 // Route::get("edit_asset", [SiteController::class, "edit_asset"]);
 
 Route::resource('disposalrequest',DisposalRequestControllers::class);
-
+Route::resource('disposal',DisposalAssetControllers::class);
 

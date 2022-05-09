@@ -34,8 +34,26 @@
             <td>{{ $Disposal->Notes }}</td>
             <td class="text-center">{{ $Disposal->Disposal_by }}</td>
             <td class="text-center">
-                    <a class="btn btn-success btn-sm" href="{{ route('disposalrequest.edit',$Disposal->id) }}">Approve</a>
-                    <a class="btn btn-danger btn-sm" href="{{ route('disposalrequest.edit',$Disposal->id) }}">Reject</a>
+            <?php if($Disposal->Approval == "Waiting for Approval"){ ?>
+                <form action="{{ route('disposalrequest.update',  $Disposal->id) }}" method="post">
+                    {{ method_field('PATCH') }}
+                    {{ csrf_field() }}
+                    <input type="hidden" name="Approval" value="Approved">
+                    <input type="hidden" value="{{ Auth::user()->name }}" name="Approval_by"> 
+                    <button type="submit" class="btn btn-success btn-sm" >Approved</button>
+                </form>
+                <form action="{{ route('disposalrequest.update',  $Disposal->id) }}" method="post">
+                    {{ method_field('PATCH') }}
+                    {{ csrf_field() }}
+                    <input type="hidden" name="Approval" value="Rejected">
+                    <input type="hidden" value="{{ Auth::user()->name }}" name="Approval_by"> 
+                    <button type="submit" class="btn btn-danger btn-sm" >Reject</button>
+                </form>
+            <?php 
+            }
+            else{ ?>
+                <a class="btn btn-primary btn-sm" href="{{ route('disposalrequest.show',$Disposal->id) }}">Details</a>
+            <?php } ?>
             </td>
         </tr>
         @endforeach
