@@ -1,27 +1,24 @@
 @extends('template')
 
 @section('content')
-<div class="row mt-5 mb-5">
-    <div class="col-lg-12 margin-tb">
-        <div class="float-left">
-            <h2>Tambah Model Baru</h2>
-        </div>
-        <div class="float-right">
-            <a class="btn btn-secondary" href="{{ route('assetmodel.index') }}"> Kembali</a>
+<div class="card-header pb-0">
+    <div class="row">
+        <div class="col-lg-6 col-7">
+            <h6>Add New Model</h6>
+            <p class="text-sm mb-0"></p>
+            @if ($errors->any())
+                <span class="font-weight-bold ms-1">Whoops! There were some problems with your input.</span>
+                <p class="text-sm mb-0">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </p>
+            @endif
         </div>
     </div>
-</div>
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Whoops!</strong> Input gagal.<br><br>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
 <form action="{{ route('assetmodel.store') }}" method="POST">
     @csrf
@@ -29,21 +26,23 @@
      <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Nama Model:</strong>
-                <input type="text" name="Model_name" class="form-control" placeholder="Nama Model">
+                <strong>Model Name</strong>
+                <input type="text" name="Model_name" class="form-control" placeholder="Model Name">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Category Model:</strong>
-                <input type="text" name="Model_category" class="form-control" placeholder="Nama Category">
+                <strong>Category Name</strong>
+                <input type="text" name="Model_category" class="form-control" placeholder="Category Name">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-info">Submit</button>
+            <a class="btn btn-secondary" href="{{ route('assetmodel.index') }}"> Back</a>
         </div>
     </div>
 
 </form>
+</div>
 
 @endsection

@@ -1,27 +1,25 @@
 @extends('template')
 
 @section('content')
-    <div class="row mt-5 mb-5">
-        <div class="col-lg-12 margin-tb">
-            <div class="float-left">
-                <h2>Edit Vendor</h2>
-            </div>
-            <div class="float-right">
-                <a class="btn btn-secondary" href="{{ route('vendor.index') }}"> Back</a>
-            </div>
+<div class="card-header pb-0">
+    <div class="row">
+        <div class="col-lg-6 col-7">
+            <h6>Edit Vendor</h6>
+            <p class="text-sm mb-0">
+                
+            </p>
+            @if ($errors->any())
+                <span class="font-weight-bold ms-1">Whoops! There were some problems with your input.</span>
+                <p class="text-sm mb-0">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </p>
+            @endif
         </div>
     </div>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     <form action="{{ route('vendor.update',$Vendor->id) }}" method="POST">
         @csrf
@@ -63,9 +61,11 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-info">Update</button>
+            <a class="btn btn-secondary" href="{{ route('vendor.index') }}">Back</a>
         </div>
     </div>
 
     </form>
+</div>
 @endsection

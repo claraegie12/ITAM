@@ -94,8 +94,8 @@
         </div> --}}
         
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure to submit this data?')">Update</button>
-            <a class="btn btn-info" href="{{ route('pegawai.index') }}">Back</a>
+            <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure to submit this data?')">Update</button>
+            <a class="btn btn-secondary" href="{{ route('pegawai.index') }}">Back</a>
         </div>
     </div>
 

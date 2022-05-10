@@ -1,64 +1,48 @@
 @extends('template')
 
 @section('content')
-    <div class="row mt-5 mb-5">
-        <div class="col-lg-12 margin-tb">
-            <div class="float-left">
-                <h2>List Contract</h2>
-            </div>
-            <div class="float-right">
-                <a class="btn btn-success" href="{{ route('contract.create') }}">Tambah Contract Baru</a>
-            </div>
+
+
+<div class="card-header pb-0">
+    <div class="row">
+        <div class="col-lg-6 col-7">
+            <h6>List Vendor</h6>
+            <p class="text-sm mb-0">
+                <a class="btn btn-success" href="{{ route('contract.create') }}">Add New Contract</a>
+                {{-- <a class="btn btn-success" href="{{ route('contract.create') }}">Tambah Contract Baru</a> --}}
+            </p>
+            @if ($message = Session::get('succes'))
+            <p class="text-sm mb-0">
+                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                <span class="font-weight-bold ms-1">{{ $message }}</span> 
+            </p>
+            @endif
         </div>
     </div>
 
-    @if ($message = Session::get('succes'))
-    <div class="alert alert-success">
-        <p>{{ $message }}</p>
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <tr>
+                    <th width="20px" class="text-center">No</th>
+                    <th width="280px"class="text-center">Vendor Name</th>
+                    <th width="280px"class="text-center">Contracts</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                @foreach ($vendors as $vendor)
+                <tr>
+                    <td class="text-center">{{$loop->iteration}}</td>
+                    <td>{{ $vendor->Vendor_name }}</td>
+                    <td width="280px"class="text-center">{{ count($vendor->Contracts) }}</td>
+                    <td class="text-center">
+                        <a class="btn btn-info btn-sm" href="{{ route('contract.show',$vendor->id) }}">Details</a>
+                        {{-- <a class="btn btn-info btn-sm" href="{{ route('vendor.show',$vendor->id) }}">Contract</a> --}}
+                    </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
     </div>
-    @endif
-
-    <table class="table table-bordered">
-        <tr>
-            <th width="20px" class="text-center">No</th>
-            <th width="280px"class="text-center">Contract Model</th>
-            <th width="280px"class="text-center">Aquisition Method</th>
-            <th width="480px"class="text-center">Expendiature Type</th>
-            <th width="480px"class="text-center">Cost</th>
-            <th width="480px"class="text-center">Cost Currently</th>
-            <th class="text-center">Cost Center</th>
-            <th class="text-center">Member Firm</th>
-            <th class="text-center">Notes</th>
-            <th class="text-center">Action</th>
-        </tr>
-        @foreach ($contracts as $contract)
-        <tr>
-            <td class="text-center">{{$loop->iteration}}</td>
-            <td>{{ $contract->Contract_model }}</td>
-            <td>{{ $contract->Aquisition_method }}</td>
-            <td>{{ $contract->Expendiature_type }}</td>
-            <td>{{ $contract->Cost }}</td>
-            <td>{{ $contract->Cost_currently }}</td>
-            <td>{{ $contract->Cost_center }}</td>
-            <td>{{ $contract->Member_firm }}</td>
-            <td>{{ $contract->Description }}</td>
-            <td class="text-center">
-                <a class="btn btn-primary btn-sm" href="{{ route('contract.edit',$contract->id) }}">Edit</a>
-                {{-- <form action="{{ route('pegawai.destroy',$pegawai->id) }}" method="POST"> --}}
-
-                   {{-- <a class="btn btn-info btn-sm" href="{{ route('pegawai.show',$pegawai->id) }}">Details</a> --}}
-
-                    
-
-                    {{-- @csrf --}}
-                    {{-- @method('DELETE') --}}
-
-                    {{-- <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button> --}}
-                {{-- </form> --}}
-            </td>
-        </tr>
-        @endforeach
-    </table>
-
+</div>
 
 @endsection

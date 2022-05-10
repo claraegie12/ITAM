@@ -14,4 +14,8 @@ class Vendor extends Model
     protected $fillable = [
         'Vendor_name','Vendor_address','Vendor_phone', 'Vendor_bank_acc', 'Vendor_account'
     ];
+    public function Contracts()
+    {
+        return $this->hasMany('App\Models\Contract','Vendor_id','id');
+    }
 }

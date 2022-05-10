@@ -5,9 +5,6 @@
         <div class="row">
         <div class="col-lg-6 col-7">
             <h6>Edit Division</h6>
-            <p class="text-sm mb-0">
-                <a class="btn btn-success" href="{{ route('bagian.index') }}">Back</a>
-            </p>
             @if ($errors->any())
                 <span class="font-weight-bold ms-1">Whoops! There were some problems with your input.</span>
                 <p class="text-sm mb-0">
@@ -35,9 +32,11 @@
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-info">Update</button>
+            <a class="btn btn-secondary" href="{{ route('bagian.index') }}">Back</a>
         </div>
     </div>
 
     </form>
+</div>
 @endsection

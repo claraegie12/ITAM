@@ -53,7 +53,7 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="{{ route('branch.edit',$branch->id) }}">Edit</a>
+                        <a class="btn btn-info btn-sm" href="{{ route('branch.edit',$branch->id) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach

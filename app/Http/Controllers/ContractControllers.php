@@ -17,8 +17,8 @@ class ContractControllers extends Controller
     {
         //
         $contracts = Contract::get();
-
-        return view('contract.index', compact('contracts'));
+        $vendors = Vendor::get();
+        return view('contract.index', compact('vendors'));
     }
 
     /**
@@ -50,7 +50,7 @@ class ContractControllers extends Controller
         ]);
         Contract::create($request->all());
 
-        return redirect()->route('vendor.index')->with('succes','Data Berhasil di Input');
+        return redirect()->route('contract.index')->with('succes','Input Data Success');
     }
 
     /**
@@ -62,6 +62,9 @@ class ContractControllers extends Controller
     public function show($id)
     {
         //
+        $vendor = Vendor::find($id);
+        return view('contract.show', compact('vendor'));
+
     }
 
     /**
@@ -107,7 +110,7 @@ class ContractControllers extends Controller
             'Description' => $request->Description
         ]);
 
-        return redirect()->route('vendor.index')->with('succes','Data Berhasil di Update');
+        return redirect()->route('contract.show',$request->Vendor_id)->with('succes','Update Data Success');
     }
 
     /**

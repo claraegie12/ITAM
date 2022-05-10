@@ -36,17 +36,17 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Office</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link  {{ (Request::is('pegawai') ? 'active' : '') }}" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link  {{ (Request::is('pegawai') ? 'active' : '') }} {{ (Request::is('pegawai/*') ? 'active' : '') }}" href="{{ route('pegawai.index') }}">
                         <span class="nav-link-text ms-1">Staff</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('bagian') ? 'active' : '') }}" href="{{ route('bagian.index') }}">
+                    <a class="nav-link {{ (Request::is('bagian') ? 'active' : '') }} {{ (Request::is('bagian/*') ? 'active' : '') }}" href="{{ route('bagian.index') }}">
                         <span class="nav-link-text ms-1">Division</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('branch') ? 'active' : '') }}" href="{{ route('branch.index') }}">
+                    <a class="nav-link {{ (Request::is('branch') ? 'active' : '') }} {{ (Request::is('branch/*') ? 'active' : '') }} " href="{{ route('branch.index') }}">
                         <span class="nav-link-text ms-1">Branch</span>
                     </a>
                 </li>
@@ -55,7 +55,7 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Asset</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('assetmodel') ? 'active' : '') }}" href="{{ route('assetmodel.index') }}">
+                    <a class="nav-link {{ (Request::is('assetmodel') ? 'active' : '') }} {{ (Request::is('assetmodel/*') ? 'active' : '') }}" href="{{ route('assetmodel.index') }}">
                     <span class="nav-link-text ms-1">Asset Model</span>
                     </a>
                 </li>
@@ -98,12 +98,12 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Agreement</h6>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link {{ (Request::is('vendor') ? 'active' : '') }} {{ (Request::is('vendor/*') ? 'active' : '') }}" href="{{ route('vendor.index') }}">
                     <span class="nav-link-text ms-1">Vendor</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link {{ (Request::is('contract') ? 'active' : '') }} {{ (Request::is('contract/*') ? 'active' : '') }}" href="{{ route('contract.index') }}">
                     <span class="nav-link-text ms-1">Contract</span>
                     </a>
                 </li>
@@ -118,22 +118,32 @@
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                 <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
                 <li class="breadcrumb-item text-sm text-dark active" aria-current="page">
-                    @if(Request::is('pegawai', 'bagian', 'branch'))
+                    @if(Request::is('pegawai', 'bagian', 'branch','pegawai/*', 'bagian/*', 'branch/*'))
                         Office
                     @elseif(Request::is('home'))
                         Dashboard
+                    @elseif(Request::is('assetmodel','assetmodel/*'))
+                        Asset
+                    @elseif(Request::is('vendor', 'vendor/*', 'contract', 'contract/*'))
+                        Agreement
                     @endif
                 </li>
                 </ol>
                 <h6 class="font-weight-bolder mb-0">
-                    @if(Request::is('pegawai'))
+                    @if(Request::is('pegawai', 'pegawai/*'))
                         Staff
-                    @elseif(Request::is('branch'))
+                    @elseif(Request::is('branch','branch/*'))
                         Branch
-                    @elseif(Request::is('bagian'))
+                    @elseif(Request::is('bagian', 'bagian/*'))
                         Division
                     @elseif(Request::is('home'))
                         Dashboard
+                    @elseif(Request::is('assetmodel','assetmodel/*'))
+                        Asset Model
+                    @elseif(Request::is('vendor', 'vendor/*'))
+                        Vendor
+                    @elseif(Request::is('contract', 'contract/*'))
+                        Contract
                     @endif
                 </h6>
             </nav>
