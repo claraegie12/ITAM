@@ -46,7 +46,7 @@ class BranchControllers extends Controller
         ]);
         Branch::create($request->all());
 
-        return redirect()->route('branch.index')->with('succes','Data Berhasil di Input');
+        return redirect()->route('branch.index')->with('succes','Create data success');
     }
 
     /**
@@ -90,7 +90,7 @@ class BranchControllers extends Controller
 
         $branch->update($request->all());
 
-        return redirect()->route('branch.index')->with('succes','Data Berhasil di Update');
+        return redirect()->route('branch.index')->with('succes','Update data success');
     }
 
     /**

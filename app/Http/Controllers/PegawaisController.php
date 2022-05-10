@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorepegawaiRequest;
 use App\Http\Requests\UpdatepegawaiRequest;
-use App\Models\pegawai;
 use Illuminate\Http\Request;
+use App\Models\pegawai;
 use App\Models\Branch;
 use App\Models\Bagian;
+use App\Models\User;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 
 class PegawaisController extends Controller
@@ -20,8 +23,7 @@ class PegawaisController extends Controller
     public function index()
     {
         //
-        $pegawais = pegawai::OrderBy('Name')->get();
-
+        $pegawais = pegawai::where('flags','<>','2')->OrderBy('Name')->get();
         return view('pegawai.index', compact('pegawais'));
     }
 
@@ -52,8 +54,28 @@ class PegawaisController extends Controller
             'Jabatan' => 'required',
             'Branch' => 'required',
             'Join_date' => 'required',
+            'Email' => ['required', 'string', 'email', 'max:255', 'unique:users']
         ]);
-        pegawai::create($request->all());
+
+        $User = User::create([
+            'name' => $request->Name,
+            'email' => $request->Email,
+            'password' => Hash::make('12345678'),
+            'role' =>$request->bagian
+        ]);
+
+        pegawai::create([
+            'Name' => $request->Name, 
+            'NIK_pegawai' => $request->NIK_pegawai, 
+            'Branch' => $request->Branch, 
+            'Jabatan' => $request->Jabatan, 
+            'Join_date' => Carbon::now()->format('Y-m-d'), 
+            'Resign_date' => "1900-12-31", 
+            'bagian' => $request->bagian, 
+            'User_id' => $User->id,
+            'flags' => '0'
+        ]);
+        
 
         return redirect()->route('pegawai.index')->with('succes','Data Berhasil di Input');
     }
@@ -101,8 +123,11 @@ class PegawaisController extends Controller
         ]);
 
         $pegawai->update($request->all());
+        User::where('id', $pegawai->User_id)->update([
+            'Name'=> $request->Name,
+        ]);
 
-        return redirect()->route('pegawai.index')->with('succes','Data Berhasil di Update');
+        return redirect()->route('pegawai.index')->with('succes','Update Data Success');
     }
 
     /**
@@ -114,5 +139,10 @@ class PegawaisController extends Controller
     public function destroy(pegawai $pegawai)
     {
         //
+        $pegawai->update([
+            "flags" => "2",
+            "Resign_date" => Carbon::now()->format('Y-m-d')
+        ]);
+        return redirect()->route('pegawai.index')->with('succes','Update Data Success');
     }
 }

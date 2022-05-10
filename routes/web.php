@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PegawaisController;
 use App\Http\Controllers\BranchControllers;
+use App\Http\Controllers\BagianControllers;
 use App\Http\Controllers\ContractControllers;
 use App\Http\Controllers\VendorControllers;
 use App\Http\Controllers\AssetModelControllers;
@@ -39,6 +40,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('pegawai',PegawaisController::class);
 Route::resource('branch',BranchControllers::class);
+Route::resource('bagian',BagianControllers::class);
 
 Route::resource('vendor',VendorControllers::class);
 Route::resource('contract',ContractControllers::class);

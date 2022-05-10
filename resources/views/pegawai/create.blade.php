@@ -1,27 +1,23 @@
 @extends('template')
 
 @section('content')
-<div class="row mt-5 mb-5">
-    <div class="col-lg-12 margin-tb">
-        <div class="float-left">
-            <h2>Tambah Pegawai Baru</h2>
-        </div>
-        <div class="float-right">
-            <a class="btn btn-secondary" href="{{ route('pegawai.index') }}"> Kembali</a>
-        </div>
+<div class="card-header pb-0">
+    <div class="row">
+    <div class="col-lg-6 col-7">
+        <h6>Add New Headcount</h6>
+        <p class="text-sm mb-0"></p>
+        @if ($errors->any())
+            <span class="font-weight-bold ms-1">Whoops! There were some problems with your input.</span>
+            <p class="text-sm mb-0">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </p>
+        @endif
     </div>
 </div>
-
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Whoops!</strong> Input gagal.<br><br>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
 
 <form action="{{ route('pegawai.store') }}" method="POST">
     @csrf
@@ -29,59 +25,60 @@
      <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>NIK:</strong>
-                <input type="text" name="NIK_pegawai" class="form-control" placeholder="NIK Pegawai">
+                <strong>Staff ID</strong>
+                <input type="text" name="NIK_pegawai" class="form-control" placeholder="Staff ID">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Nama Pegawai:</strong>
-                <input type="text" name="Name" class="form-control" placeholder="Nama Pegawai">
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Cabang:</strong>
-                <select class="form-control" name="Branch" id="Branch">
-                    <option value = "0">Pilih Cabang</option>
-                    @foreach ($branches as $branch)
-                    <option value="{{ $branch->id }}">{{ $branch->Name }}</option>
-                    @endforeach
-                </select>
-                {{-- <input type="text" name="Branch" class="form-control" placeholder="Cabang"> --}}
-                {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content"></textarea> --}}
+                <strong>Staff Name</strong>
+                <input type="text" name="Name" class="form-control" placeholder="Staff Name">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12" >
             <div class="form-group">
-                <strong>Jabatan:</strong>
-                <input type="text" name="Jabatan" class="form-control" placeholder="Jabatan">
-                {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content"></textarea> --}}
+                <strong>Email</strong>
+                <input type="text" name="Email" class="form-control" placeholder="Email">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Departemen:</strong>
+                <strong>Branch</strong>
+                <select class="form-control" name="Branch" id="Branch">
+                    <option value = "0">Choose Branch</option>
+                    @foreach ($branches as $branch)
+                    <option value="{{ $branch->id }}">{{ $branch->Name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Division:</strong>
                 <select class="form-control" name="bagian" id="bagian">
-                    <option value = "0">Pilih Departemen</option>
+                    <option value = "0">Choose Division</option>
                     @foreach ($bagians as $bagian)
                     <option value="{{ $bagian->Name }}">{{ $bagian->Name }}</option>
                     @endforeach
                 </select>
-                {{-- <input type="text" name="Branch" class="form-control" placeholder="Cabang"> --}}
-                {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content"></textarea> --}}
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12" >
+            <div class="form-group">
+                <strong>Position</strong>
+                <input type="text" name="Jabatan" class="form-control" placeholder="Position">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Tanggal Bergabung:</strong>  
-                <input type="text" name="Join_date" class="form-control" placeholder="Tanggal Bergabung">
-                {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content"></textarea> --}}
+                <strong>Join Date:</strong>  
+                <input type="text" name="Join_date" class="form-control" placeholder="YYYY-mm-dd">
             </div>
         </div>
         <input type="hidden" value="1900-12-31" name="Resign_date">
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
             <button type="submit" class="btn btn-primary">Submit</button>
+            <a class="btn btn-info" href="{{ route('pegawai.index') }}">Back</a>
         </div>
     </div>
 

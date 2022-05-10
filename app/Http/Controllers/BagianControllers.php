@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Bagian;
 
 class BagianControllers extends Controller
 {
@@ -14,6 +15,8 @@ class BagianControllers extends Controller
     public function index()
     {
         //
+        $Bagians = Bagian::OrderBy('Name')->get();
+        return view('branch.index_b', compact('Bagians'));
     }
 
     /**
@@ -24,6 +27,7 @@ class BagianControllers extends Controller
     public function create()
     {
         //
+        return view('branch.create_b');
     }
 
     /**
@@ -35,6 +39,12 @@ class BagianControllers extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'Name' => 'required'
+        ]);
+        Bagian::create($request->all());
+
+        return redirect()->route('bagian.index')->with('succes','Create data success');
     }
 
     /**
@@ -57,6 +67,8 @@ class BagianControllers extends Controller
     public function edit($id)
     {
         //
+        $Bagian = Bagian::find($id);
+        return view('branch.edit_b', compact('Bagian'));
     }
 
     /**
@@ -69,6 +81,10 @@ class BagianControllers extends Controller
     public function update(Request $request, $id)
     {
         //
+        Bagian::where('id', $id)->update([
+            'Name' => $request->Name
+        ]);
+        return redirect()->route('bagian.index')->with('succes','Update data success');
     }
 
     /**

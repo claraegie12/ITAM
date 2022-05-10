@@ -4,9 +4,9 @@
     <div class="card-header pb-0">
         <div class="row">
         <div class="col-lg-6 col-7">
-            <h6>List Branch</h6>
+            <h6>List Division</h6>
             <p class="text-sm mb-0">
-                <a class="btn btn-success" href="{{ route('branch.create') }}">Add New Branch</a>
+                <a class="btn btn-success" href="{{ route('bagian.create') }}">Add New Division</a>
             </p>
             @if ($message = Session::get('succes'))
             <p class="text-sm mb-0">
@@ -23,14 +23,12 @@
                 <thead>
                     <tr>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Branch</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Phone</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Alamat</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Name</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                @foreach ($Branches as $branch)
+                @foreach ($Bagians as $bagian)
                 <tr>
                     <td class="text-center">
                         <div class="d-flex flex-column justify-content-center">
@@ -39,21 +37,12 @@
                     </td>
                     <td>
                         <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ $branch->Name }}</h6>
+                            <h6 class="mb-0 text-sm">{{ $bagian->Name }}</h6>
                         </div>
                     </td>
-                    <td>
-                        <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ $branch->Phone }}</h6>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ $branch->Alamat }}</h6>
-                        </div>
-                    </td>
+                   
                     <td class="text-center">
-                        <a class="btn btn-primary btn-sm" href="{{ route('branch.edit',$branch->id) }}">Edit</a>
+                        <a class="btn btn-primary btn-sm" href="{{ route('bagian.edit',$bagian->id) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach

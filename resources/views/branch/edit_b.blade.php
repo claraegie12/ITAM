@@ -4,9 +4,9 @@
     <div class="card-header pb-0">
         <div class="row">
         <div class="col-lg-6 col-7">
-            <h6>Edit Branch</h6>
+            <h6>Edit Division</h6>
             <p class="text-sm mb-0">
-                <a class="btn btn-success" href="{{ route('branch.index') }}">Back</a>
+                <a class="btn btn-success" href="{{ route('bagian.index') }}">Back</a>
             </p>
             @if ($errors->any())
                 <span class="font-weight-bold ms-1">Whoops! There were some problems with your input.</span>
@@ -23,27 +23,15 @@
 
     
 
-    <form action="{{ route('branch.update',$branch->id) }}" method="POST">
+    <form action="{{ route('bagian.update',$Bagian->id) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <p class="text-sm mb-0">Branch Name</p>
-                <input type="text" name="Name" class="form-control" placeholder="Branch Name or City" value="{{ $branch->Name }}">
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <p class="text-sm mb-0">Phone</p>
-                <input type="text" name="Phone" value="{{ $branch->Phone }}" class="form-control" placeholder="Ext-phone">
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <p class="text-sm mb-0">Address</p>
-                <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Address">{{ $branch->Alamat }}</textarea>
+                <p class="text-sm mb-0">Division Name</p>
+                <input type="text" name="Name" class="form-control" placeholder="Division Name" value="{{ $Bagian->Name }}">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
