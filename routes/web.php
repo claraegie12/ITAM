@@ -8,6 +8,7 @@ use App\Http\Controllers\ContractControllers;
 use App\Http\Controllers\VendorControllers;
 use App\Http\Controllers\AssetModelControllers;
 use App\Http\Controllers\AssetRequestControllers;
+use App\Http\Controllers\ItemRequestControllers;
 use App\Http\Controllers\AssetApprovalControllers;
 use App\Http\Controllers\AssetControllers;
 use App\Http\Controllers\AssetHandoverControllers;
@@ -47,6 +48,7 @@ Route::resource('contract',ContractControllers::class);
 
 Route::resource('assetmodel',AssetModelControllers::class);
 Route::resource('assetrequest',AssetRequestControllers::class);
+Route::resource('itemrequest',ItemRequestControllers::class);
 Route::resource('assetapproval',AssetApprovalControllers::class);
 Route::resource('asset',AssetControllers::class);
 Route::resource('assethandover',AssetHandoverControllers::class);

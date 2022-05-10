@@ -1,33 +1,30 @@
 @extends('template')
 
 @section('content')
-<div class="row mt-5 mb-5">
-    <div class="col-lg-12 margin-tb">
-        <div class="float-left">
-            <h2>Buat Request Baru</h2>
-        </div>
-        <div class="float-right">
-            <a class="btn btn-secondary" href="{{ route('assetrequest.index') }}"> Kembali</a>
-        </div>
-    </div>
-</div>
 
-@if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Whoops!</strong> Input gagal.<br><br>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
+<div class="card-header pb-0">
+    <div class="row">
+        <div class="col-lg-6 col-7">
+            <h6>Add New Request Asset</h6>
+            <p class="text-sm mb-0"></p>
+            @if ($errors->any())
+                <span class="font-weight-bold ms-1">Whoops! There were some problems with your input.</span>
+                <p class="text-sm mb-0">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </p>
+            @endif
+        </div>
     </div>
-@endif
 
 <form action="{{ route('assetrequest.store') }}" method="POST">
     @csrf
 
      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        {{-- <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Model Asset:</strong>
                 <select class="form-control" name="Asset_model_id" id="Asset_model_id">
@@ -36,30 +33,31 @@
                     <option value="{{ $AssetModel->id }}">{{ $AssetModel->Model_name }}</option>
                     @endforeach
                 </select>
-                {{-- <input type="text" name="Branch" class="form-control" placeholder="Cabang"> --}}
-                {{-- <textarea class="form-control" style="height:150px" name="Alamat" placeholder="Content"></textarea> --}}
             </div>
-        </div>
+        </div> --}}
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Jumlah:</strong>
-                <input type="text" name="Qty" class="form-control" placeholder="Jumlah">
+                <strong>Request Name</strong>
+                <input type="text" name="name" class="form-control" placeholder="Request Name">
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12" >
             <div class="form-group">
-                <strong>Keterangan:</strong>
-                {{-- <input type="text" name="Jabatan" class="form-control" placeholder="Jabatan"> --}}
-                <textarea class="form-control" style="height:150px" name="Description" placeholder="Keterangan"></textarea>
+                <strong>Description:</strong>
+                <textarea class="form-control" style="height:150px" name="Description" placeholder="Description"></textarea>
             </div>
         </div>
-        <input type="hidden" value="1" name="Asset_id">
+        <input type="hidden" value="0" name="Asset_id">
+        <input type="hidden" value="0" name="Asset_model_id">
+        <input type="hidden" value="0" name="Qty">
         <input type="hidden" value="{{ Auth::user()->name }}" name="Created_by">
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-info">Submit</button>
+            <a class="btn btn-secondary" href="{{ route('assetrequest.index') }}"> Back</a>
         </div>
     </div>
 
 </form>
+</div>
 
 @endsection

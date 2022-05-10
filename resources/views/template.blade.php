@@ -60,7 +60,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('assetrequest.index') }}">
+                    <a class="nav-link {{ (Request::is('assetrequest') ? 'active' : '') }} {{ (Request::is('assetrequest/*') ? 'active' : '') }}" href="{{ route('assetrequest.index') }}">
                         <span class="nav-link-text ms-1">Asset Request</span>
                     </a>
                 </li>
@@ -122,7 +122,7 @@
                         Office
                     @elseif(Request::is('home'))
                         Dashboard
-                    @elseif(Request::is('assetmodel','assetmodel/*'))
+                    @elseif(Request::is('assetmodel','assetmodel/*','assetrequest','assetrequest/*'))
                         Asset
                     @elseif(Request::is('vendor', 'vendor/*', 'contract', 'contract/*'))
                         Agreement
@@ -140,6 +140,8 @@
                         Dashboard
                     @elseif(Request::is('assetmodel','assetmodel/*'))
                         Asset Model
+                    @elseif(Request::is('assetrequest','assetrequest/*'))
+                        Asset Request
                     @elseif(Request::is('vendor', 'vendor/*'))
                         Vendor
                     @elseif(Request::is('contract', 'contract/*'))

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AssetRequest;
-use App\Models\AssetApproval;
+use App\Models\itemrequest;
 use App\Models\AssetModel;
 use Carbon\Carbon;
 
@@ -30,8 +30,8 @@ class AssetRequestControllers extends Controller
     public function create()
     {
         //
-        $AssetModels = AssetModel::OrderBy('Model_name', 'ASC')->get();
-        return view('assetrequest.create',compact('AssetModels'));
+        //$AssetModels = AssetModel::OrderBy('Model_name', 'ASC')->get();
+        return view('assetrequest.create');
     }
 
     /**
@@ -44,33 +44,34 @@ class AssetRequestControllers extends Controller
     {
         //
         $request->validate([
-            'Asset_model_id' => 'required',
-            'Qty' => 'required',
+            'name' => 'required',
             'Description' => 'required'
         ]);
         
-       // AssetModel::create($request->all());
-        $assetRequest = AssetRequest::create([
+        $assetrequest = AssetRequest::create([
             'Asset_id' => $request->Asset_id, 
             'Asset_model_id' => $request->Asset_model_id, 
             'Qty'=> $request->Qty, 
             'Request_date' => Carbon::now()->format('Y-m-d'),  
             'Description' => $request->Description, 
-            'Created_by' => $request->Created_by
+            'Created_by' => $request->Created_by,
+            'name' => $request->name,
+            'status' => '0'
         ]);
 
-        AssetApproval::create([
-            'Request_id' => $assetRequest->id, 
-            'Contract_id' => '0', 
-            'Approval'=> '0', 
-            'Approval_date' => Carbon::now()->format('Y-m-d'),  
-            'Approved_by' => '',
-            'Description' => '',
-            'flag' => '0',
-            'invoice_number' => ' '
-        ]);
+        // AssetApproval::create([
+        //     'Request_id' => $assetRequest->id, 
+        //     'Contract_id' => '0', 
+        //     'Approval'=> '0', 
+        //     'Approval_date' => Carbon::now()->format('Y-m-d'),  
+        //     'Approved_by' => '',
+        //     'Description' => '',
+        //     'flag' => '0',
+        //     'invoice_number' => ' '
+        // ]);
 
-        return redirect()->route('assetrequest.index')->with('succes','Data Berhasil di Input');
+        // return redirect()->route('assetrequest.index')->with('succes','Data Berhasil di Input');
+        return redirect()->route('assetrequest.show',$assetrequest->id)->with('succes','Input Data Success');
     }
 
     /**
@@ -82,6 +83,10 @@ class AssetRequestControllers extends Controller
     public function show($id)
     {
         //
+        $AssetModels = AssetModel::OrderBy('Model_name', 'ASC')->get();
+        $AssetRequest = AssetRequest::find($id);
+        $Items = itemrequest::where('Asset_id','=',$id)->get();
+        return view('assetrequest.itemcreate', compact('AssetRequest','AssetModels','Items'));
     }
 
     /**
@@ -105,6 +110,13 @@ class AssetRequestControllers extends Controller
     public function update(Request $request, $id)
     {
         //
+        
+        $AssetRequest = AssetRequest::find($id);
+        $qty = (int) $AssetRequest->Qty + (int)$request->Qty;
+        AssetRequest::where('id', $id)->update([
+            'Qty' => $qty
+        ]);
+        return redirect()->route('assetrequest.index')->with('succes','Input Data Success');
     }
 
     /**
@@ -116,6 +128,9 @@ class AssetRequestControllers extends Controller
     public function destroy($id)
     {
         //
+        $Item = AssetRequest::findOrFail($id);
+        $Item->delete();
+        return redirect()->route('assetrequest.index')->with('succes','Remove Data Success');
         
     }
 }

@@ -13,16 +13,16 @@ class AssetRequest extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'Asset_id', 'Asset_model_id', 'Qty', 'Request_date', 'Description', 'Created_by'
+        'Asset_id', 'Asset_model_id', 'Qty', 'Request_date', 'Description', 'Created_by', 'status', 'name'
     ];
 
-    public function AssetModels()
-    {
-        return $this->hasOne('App\Models\AssetModel','id','Asset_model_id');
-    }
+    // public function AssetModels()
+    // {
+    //     return $this->hasOne('App\Models\AssetModel','id','Asset_model_id');
+    // }
 
-    public function AssetApproval()
-    {
-        return $this->hasOne('App\Models\AssetApproval','Request_id','id');
-    }
+    // public function AssetApproval()
+    // {
+    //     return $this->hasOne('App\Models\AssetApproval','Request_id','id');
+    // }
 }
