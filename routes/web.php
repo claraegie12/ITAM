@@ -17,6 +17,8 @@ use App\Http\Controllers\DisposalAssetControllers;
 use App\Http\Controllers\PurchaseRequestControllers;
 use App\Http\Controllers\ItemPurchaseControllers;
 use App\Http\Controllers\ProcurementControllers;
+use App\Http\Controllers\AssetSupportControllers;
+
 
 
 /*
@@ -58,7 +60,7 @@ Route::resource('itempurchase',ItemPurchaseControllers::class);
 Route::resource('procurement',ProcurementControllers::class);
 Route::resource('asset',AssetControllers::class);
 Route::resource('assethandover',AssetHandoverControllers::class);
-// Route::get("edit_asset", [SiteController::class, "edit_asset"]);
+Route::resource('assetsupport',AssetSupportControllers::class);
 
 Route::resource('disposalrequest',DisposalRequestControllers::class);
 Route::resource('disposal',DisposalAssetControllers::class);

@@ -23,7 +23,6 @@ class AssetControllers extends Controller
         //     ['flag', '=', '1']
         // ])->OrderBy('id')->get();
         $Models = AssetModel::get();
-        
         return view('asset.index', compact('Models'));
     }
 
@@ -77,7 +76,12 @@ class AssetControllers extends Controller
         // $AssetApproval = AssetApproval::find($id);
         // $Asset = Asset::where('asset_approval_id','=',$id)->first();
         $Model = AssetModel::find($id);
-        return view('asset.show', compact('Model'));
+        $Models = Asset::where([
+                ['Jenis_asset', '<>', 'Disposed'],
+                ['asset_model_id', '=', $id]
+        ])->get();
+        //echo $Models[0];
+        return view('asset.show', compact('Model','Models'));
     }
 
     /**
@@ -112,9 +116,6 @@ class AssetControllers extends Controller
     {
         //
         Asset::where('id', $id)->update([
-            'Power' => $request->Power, 
-            'Width' => $request->Width, 
-            'Height' => $request->Height,
             'Serial_number' => $request->Serial_number,
             'Jenis_asset' => "Ready"
         ]);

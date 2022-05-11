@@ -25,7 +25,7 @@
                     <td class="text-center">{{$loop->iteration}}</td>
                     <td>{{ $Model->Model_name }}</td>
                     <td>{{ $Model->Model_category }}</td>
-                    <td class="text-center">{{ count($Model->Assets)}}</td>
+                    <td class="text-center">{{ count($Model->Assets_total)}}</td>
                     <td class="text-center">
                         <a class="btn btn-info btn-sm" href="{{ route('asset.show',$Model->id) }}">Details</a>
                     </td>

@@ -15,8 +15,8 @@ class DisposalRequest extends Model
         'Asset_id','Notes','Approval', 'Approval_date', 'Approval_by', 'Disposal_date', 'Disposal_by'
     ];
 
-    public function Asset()
+    public function AssetModel()
     {
-        return $this->hasOne('App\Models\Asset','id','Asset_id');
+        return $this->hasOne('App\Models\AssetModel','id','Asset_id');
     }
 }

@@ -18,8 +18,9 @@ class AssetHandoverControllers extends Controller
     public function index()
     {
         //
-        $Assets = Asset::where('jenis_asset','<>','Idle')->get();
-        return view('assethandover.index', compact('Assets'));
+        //$Assets = Asset::where('jenis_asset','=','Ready')->get();
+        $Handovers = AssetHandover::get();
+        return view('assethandover.index', compact('Handovers'));
 
     }
 
@@ -31,7 +32,8 @@ class AssetHandoverControllers extends Controller
     public function create()
     {
         //
-
+        $Assets = Asset::where('Jenis_asset','=','Ready')->get();
+        return view('assethandover.create', compact('Assets'));
     }
 
     /**

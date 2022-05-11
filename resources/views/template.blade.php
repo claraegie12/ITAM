@@ -90,12 +90,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link {{ (Request::is('assethandover') ? 'active' : '') }} {{ (Request::is('assethandover/*') ? 'active' : '') }}" href="{{ route('assethandover.index') }}">
                     <span class="nav-link-text ms-1">Handover</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link {{ (Request::is('disposal') ? 'active' : '') }} {{ (Request::is('disposal/*') ? 'active' : '') }}" href="{{ route('disposalrequest.index') }}">
                     <span class="nav-link-text ms-1">Disposal Request</span>
                     </a>
                 </li>
@@ -136,7 +136,7 @@
                         Asset
                     @elseif(Request::is('vendor', 'vendor/*', 'contract', 'contract/*'))
                         Agreement
-                    @elseif(Request::is('procurement', 'procurement/*','asset','asset/*'))
+                    @elseif(Request::is('procurement', 'procurement/*','asset','asset/*','assethandover','assethandover/*'))
                         Asset
                     @elseif(Request::is('purchaserequest', 'purchaserequest/*','itempurchase', 'itempurchase/*'))
                         Asset
@@ -166,6 +166,8 @@
                         Procurement
                     @elseif(Request::is('asset','asset/*'))
                         Asset
+                    @elseif(Request::is('assethandover','assethandover/*'))
+                        Handover
                     @elseif(Request::is('vendor', 'vendor/*'))
                         Vendor
                     @elseif(Request::is('contract', 'contract/*'))

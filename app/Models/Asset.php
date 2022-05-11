@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Asset extends Model
 {
@@ -20,9 +21,14 @@ class Asset extends Model
         return $this->hasOne('App\Models\AssetApproval','id','asset_approval_id');
     }
 
+    public function AssetSupport()
+    {
+        return $this->hasOne('App\Models\AssetSupport','Asset_id','id');
+    }
+
     public function AssetModel()
     {
-        return $this->hasOne('App\Models\AssetModel','Model_name','asset_model_id');
+        return $this->hasOne('App\Models\AssetModel','id','asset_model_id');
     }
 
     public function AssetHandover()

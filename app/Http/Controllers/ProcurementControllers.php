@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\AssetApproval;
 use App\Models\AssetRequest;
 use App\Models\Asset;
+use App\Models\AssetSupport;
 use App\Models\itemrequest;
 use App\Models\itemprocurement;
 use Carbon\Carbon;
@@ -97,7 +98,7 @@ class ProcurementControllers extends Controller
             foreach($AssetApproval->Items as $Item){
                 for($ii=0;$ii<(int)$Item->Qty;$ii++){
                     // echo $Item->itemrequest->AssetModels->Model_name;
-                    Asset::create([
+                    $Asset = Asset::create([
                         'Serial_number' => ' ', 
                         'Qty' => '1', 
                         'Jenis_asset' => 'Idle',
@@ -109,10 +110,14 @@ class ProcurementControllers extends Controller
                         'asset_approval_id' => $id, 
                         'asset_model_id' => $Item->itemrequest->AssetModels->id
                     ]);
+                    AssetSupport::create([
+                        'Asset_id' => $Asset->id, 
+                        'Warranty_expired' => Carbon::now()->addYears(3)->format('Y-m-d'),
+                        'Support_group' => $AssetApproval->Contract->Vendor->id,  
+                        'Support_by' => 'IT'
+                    ]);
                 }
             };
-
-            
             return redirect()->route('procurement.index')->with('succes','Process Data Success');
         }
 

@@ -1,63 +1,91 @@
 @extends('template')
 
 @section('content')
-    <div class="row mt-5 mb-5">
-        <div class="col-lg-12 margin-tb">
-            <div class="float-left">
-                <h2>List Disposal Request</h2>
-            </div>
+    <div class="card-header pb-0">
+        <div class="row">
+        <div class="col-lg-6 col-7">
+            <h6>List Disposal Request</h6>
+            <p class="text-sm mb-0">
+                <a class="btn btn-success" href="{{ route('disposalrequest.create') }}">Add New Disposal</a>
+            </p>
+            @if ($message = Session::get('succes'))
+            <p class="text-sm mb-0">
+                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                <span class="font-weight-bold ms-1">{{ $message }}</span> 
+            </p>
+            @endif
         </div>
     </div>
 
-    @if ($message = Session::get('succes'))
-    <div class="alert alert-success">
-        <p>{{ $message }}</p>
-    </div>
-    @endif
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Model</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th colspan=2 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach ($Disposals as $Disposal)
+                <tr>
+                    <td class="text-center">
+                        <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{$loop->iteration}}</h6>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{ $Disposal->AssetModel->Model_name }}</h6>
+                        </div>
+                    </td>
+                   
+                    <td class="text-center">
+                        <div class="d-flex flex-column justify-content-center">
+                            @if ( $Disposal->Approval == '0' )
+                                Waiting Approval
+                            @elseif ( $Disposal->Approval == '1' )
+                                Approved
+                            @elseif ( $Disposal->Approval == '2' )
+                                Reject
+                            @endif
+                        </div>
+                    </td>
 
-    <table class="table table-bordered">
-        <tr>
-            <th width="20px" class="text-center">No</th>
-            <th width="100px" class="text-center">Model</th>
-            <th width="280px" class="text-center">Serial Number</th>
-            <th width="100px" class="text-center">Status</th>
-            <th width="280px" class="text-center">Details</th>
-            <th width="120px" class="text-center">Request By</th>
-            <th width="200px" class="text-center">Action</th>
-        </tr>
-        @foreach ($Disposals as $Disposal)
-        <tr>
-            <td class="text-center">{{$loop->iteration}}</td>
-            <td>{{ $Disposal->Asset->asset_model_id }}</td>
-            <td>{{ $Disposal->Asset->Serial_number }}</td>
-            <td class="text-center">{{ $Disposal->Approval }}</td>
-            <td>{{ $Disposal->Notes }}</td>
-            <td class="text-center">{{ $Disposal->Disposal_by }}</td>
-            <td class="text-center">
-            <?php if($Disposal->Approval == "Waiting for Approval"){ ?>
-                <form action="{{ route('disposalrequest.update',  $Disposal->id) }}" method="post">
-                    {{ method_field('PATCH') }}
-                    {{ csrf_field() }}
-                    <input type="hidden" name="Approval" value="Approved">
-                    <input type="hidden" value="{{ Auth::user()->name }}" name="Approval_by"> 
-                    <button type="submit" class="btn btn-success btn-sm" >Approved</button>
-                </form>
-                <form action="{{ route('disposalrequest.update',  $Disposal->id) }}" method="post">
-                    {{ method_field('PATCH') }}
-                    {{ csrf_field() }}
-                    <input type="hidden" name="Approval" value="Rejected">
-                    <input type="hidden" value="{{ Auth::user()->name }}" name="Approval_by"> 
-                    <button type="submit" class="btn btn-danger btn-sm" >Reject</button>
-                </form>
-            <?php 
-            }
-            else{ ?>
-                <a class="btn btn-primary btn-sm" href="{{ route('disposalrequest.show',$Disposal->id) }}">Details</a>
-            <?php } ?>
-            </td>
-        </tr>
-        @endforeach
-    </table>
+                    <td class="text-center">
+                        <div class="d-flex flex-column justify-content-center">
+                            @if ( $Disposal->Approval == '0' )
+                            <form action="{{ route('disposalrequest.update',$Disposal->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                    <input type="hidden" name="Asset_id" value="{{$Disposal->Asset_id}}">
+                                    <input type="hidden" name="Approval" value="1">
+                                    <input type="hidden" name="Approval_by" value="{{ Auth::user()->name }}">
+                                    <button type="submit" class="btn btn-info">Approve</button>
+                            </form>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex flex-column justify-content-center">
+                            <form action="{{ route('disposalrequest.update',$Disposal->id) }}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                    <input type="hidden" name="Asset_id" value="{{$Disposal->Asset_id}}">
+                                    <input type="hidden" name="Approval" value="2">
+                                    <input type="hidden" name="Approval_by" value="{{ Auth::user()->name }}">
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                            </form>
+                            @endif
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 
 @endsection
