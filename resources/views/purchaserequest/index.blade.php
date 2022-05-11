@@ -20,7 +20,7 @@
                 <tr>
                     <th class="text-center">No</th>
                     <th>Request Name</th>
-                    <th>Request By</th>
+                    <th>Quantity</th>
                     <th>Contract</th>
                     <th>Vendor</th>
                     <th class="text-center">Status</th>
