@@ -17,6 +17,12 @@
                     </ul>
                 </p>
             @endif
+            @if ($message = Session::get('succes'))
+            <p class="text-sm mb-0">
+                <i class="fa fa-check text-info" aria-hidden="true"></i>
+                <span class="font-weight-bold ms-1">{{ $message }}</span> 
+            </p>
+            @endif
         </div>
     </div>
 

@@ -7,7 +7,10 @@ use App\Models\AssetApproval;
 use App\Models\AssetRequest;
 use App\Models\Contract;
 use App\Models\Asset;
+use App\Models\itemrequest;
 use Carbon\Carbon;
+
+
 
 
 class AssetApprovalControllers extends Controller
@@ -22,7 +25,9 @@ class AssetApprovalControllers extends Controller
         //
         //$AssetApprovals = AssetApproval::OrderBy('Approval')->get();
         //return view('assetrequest.approval', compact('AssetApprovals'));
-        $AssetRequests = AssetRequest::OrderBy('id')->get();
+        $AssetRequests = AssetRequest::where([
+            ['Qty','>','0']
+        ])->get();
         return view('assetrequest.approval', compact('AssetRequests'));
 
     }
@@ -82,7 +87,6 @@ class AssetApprovalControllers extends Controller
     {
         //
         $AssetApproval = AssetApproval::find($id);
-        //$Contracts = Contract::get();
         return view('assetrequest.approval_show', compact('AssetApproval'));
     }
 
@@ -95,9 +99,12 @@ class AssetApprovalControllers extends Controller
     public function edit($id)
     {
         //
-        $AssetApproval = AssetApproval::find($id);
-        $Contracts = Contract::get();
-        return view('assetrequest.approval_e', compact('AssetApproval','Contracts'));
+        // $AssetApproval = AssetApproval::find($id);
+        // $Contracts = Contract::get();
+        // return view('assetrequest.approval_e', compact('AssetApproval','Contracts'));
+        $AssetRequest = AssetRequest::find($id);
+        $Items = itemrequest::where('Asset_id','=',$id)->get();
+        return view('assetrequest.approval_e', compact('Items','AssetRequest'));
     }
 
     /**
@@ -110,13 +117,13 @@ class AssetApprovalControllers extends Controller
     public function update(Request $request, $id)
     {
         //
-        AssetApproval::where('id', $id)->update([
-            'Approval'=> $request->Approval,
-            'Contract_id'=> $request->Contract_id,
-            'Description' => $request->Description,
-            'Approved_by' => $request->Approved_by,
-            'invoice_number' => $request->invoice_number
-        ]);
+        // AssetApproval::where('id', $id)->update([
+        //     'Approval'=> $request->Approval,
+        //     'Contract_id'=> $request->Contract_id,
+        //     'Description' => $request->Description,
+        //     'Approved_by' => $request->Approved_by,
+        //     'invoice_number' => $request->invoice_number
+        // ]);
 
         /*if($request->Approval == "1" && $request->flag == "0"){
             AssetApproval::where('id', $id)->update([
@@ -139,7 +146,25 @@ class AssetApprovalControllers extends Controller
                 ]);
               }
         }*/
+        AssetRequest::where('id', $id)->update([
+            'status'=> $request->status,
+            'approved_by' => $request->approved_by,
+            'approved_date' => Carbon::now()->format('Y-m-d')
+        ]);
 
+        // if ($request->status == "1"){
+        //     AssetApproval::create([
+        //         'Request_id' => $id, 
+        //         'Contract_id' => '0', 
+        //         'Approval'=> '0', 
+        //         'Approval_date' => Carbon::now()->format('Y-m-d'),  
+        //         'Approved_by' => '',
+        //         'Description' => '',
+        //         'flag' => '0',
+        //         'invoice_number' => ' '
+        //     ]);
+        // }
+        
         return redirect()->route('assetapproval.index')->with('succes','Data Berhasil di Update');
     }
 

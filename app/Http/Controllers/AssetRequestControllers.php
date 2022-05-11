@@ -59,17 +59,6 @@ class AssetRequestControllers extends Controller
             'status' => '0'
         ]);
 
-        // AssetApproval::create([
-        //     'Request_id' => $assetRequest->id, 
-        //     'Contract_id' => '0', 
-        //     'Approval'=> '0', 
-        //     'Approval_date' => Carbon::now()->format('Y-m-d'),  
-        //     'Approved_by' => '',
-        //     'Description' => '',
-        //     'flag' => '0',
-        //     'invoice_number' => ' '
-        // ]);
-
         // return redirect()->route('assetrequest.index')->with('succes','Data Berhasil di Input');
         return redirect()->route('assetrequest.show',$assetrequest->id)->with('succes','Input Data Success');
     }

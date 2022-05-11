@@ -1,47 +1,40 @@
 @extends('template')
 
 @section('content')
-    <div class="row mt-5 mb-5">
-        <div class="col-lg-12 margin-tb">
-            <div class="float-left">
-                <h2>List Asset</h2>
-            </div>
-            <div class="float-right">
-                <a class="btn btn-success" href="{{ route('assetrequest.create') }}">Pengadaan Asset Baru</a>
-            </div>
+<div class="card-header pb-0">
+    <div class="row">
+        <div class="col-lg-6 col-7">
+            <h6>List Asset</h6>
+            <p class="text-sm mb-0">
+                <a class="btn btn-success" href="{{ route('assetrequest.create') }}">Request New Asset</a>
+            </p>
         </div>
     </div>
-
-    @if ($message = Session::get('succes'))
-    <div class="alert alert-success">
-        <p>{{ $message }}</p>
+    <div class="card-body px-0 pb-2">
+        <div class="table-responsive">
+            <table class="table align-items-center mb-0">
+                <tr>
+                    <th class="text-center">No</th>
+                    <th>Model</th>
+                    <th>Category</th>
+                    <th class="text-center">Quantity</th>
+                    <th class="text-center">Action</th>
+                </tr>
+                @foreach ($Models as $Model)
+                <tr>
+                    <td class="text-center">{{$loop->iteration}}</td>
+                    <td>{{ $Model->Model_name }}</td>
+                    <td>{{ $Model->Model_category }}</td>
+                    <td class="text-center">{{ count($Model->Assets)}}</td>
+                    <td class="text-center">
+                        <a class="btn btn-info btn-sm" href="{{ route('asset.show',$Model->id) }}">Details</a>
+                    </td>
+                </tr>
+                @endforeach
+            </table>
+        </div>
     </div>
-    @endif
-
-    <table class="table table-bordered">
-        <tr>
-            <th width="20px" class="text-center">No</th>
-            <th width="280px" class="text-center">Request Model</th>
-            <th width="280px" class="text-center">Invoice Number</th>
-            <th width="280px" class="text-center">Status</th>
-            <th width="280px" class="text-center">Action</th>
-        </tr>
-        @foreach ($Assets as $Asset)
-        <tr>
-            <td class="text-center">{{$loop->iteration}}</td>
-            <td>{{ $Asset->AssetRequest->AssetModels->Model_name }}</td>
-            <td>{{ $Asset->invoice_number }}</td>
-            <td>
-                Approved
-            </td>
-            <td class="text-center">
-                <a class="btn btn-primary btn-sm" href="{{ route('asset.show', $Asset->id) }}">Edit</a>
-                <a class="btn btn-info btn-sm" href="{{ route('asset.edit',$Asset->id) }}">Details</a>
-                
-            </td>
-        </tr>
-        @endforeach
-    </table>
+</div>
 
 
 @endsection

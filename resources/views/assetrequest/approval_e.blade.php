@@ -1,105 +1,70 @@
 @extends('template')
 
 @section('content')
-    <div class="row mt-5 mb-5">
-        <div class="col-lg-12 margin-tb">
-            <div class="float-left">
-                <h2>Update Approval</h2>
-            </div>
-            <div class="float-right">
-                <a class="btn btn-secondary" href="{{ route('assetapproval.index') }}">Back</a>
-            </div>
+
+<div class="card-header pb-0">
+    <div class="row">
+        <div class="col-lg-12 col-12">
+            <h4>List Request Asset</h4>
+           
+            <p class="text-ml mb-0">
+                <span class="font-weight-bold ms-1">Request Name</span> : {{ $AssetRequest->name }}
+            </p>
+            <p class="text-ml mb-0">
+                <span class="font-weight-bold ms-1">Request Description</span> : {{ $AssetRequest->Description }}
+            </p>
+            <p class="text-ml mb-0">
+                <span class="font-weight-bold ms-1">Request Date</span> : {{ $AssetRequest->Request_date }}
+            </p>
+            <p class="text-ml mb-0">
+                <span class="font-weight-bold ms-1">Request By</span> : {{ $AssetRequest->Created_by }}
+            </p>
         </div>
     </div>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your update.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ route('assetapproval.update',$AssetApproval->id) }}" method="POST">
-        @csrf
-        @method('PUT') 
-
-        <div class="row">
-            <div class="col-xs-6 col-sm-6 col-md-6">
-                <div class="form-group">
-                    <strong>Model:</strong>
-                    <input type="text" readonly name="Asset_model" class="form-control" value="{{ $AssetApproval->AssetRequest->AssetModels->Model_name}}">
-                </div>
+       
+        <div class="card-body px-0 pb-2">
+            <div class="table-responsive">
+                <table class="table align-items-center mb-0">
+                    <thead>
+                    <tr>
+                        <th class="text-center">No</th>
+                        <th class="text-center">Nama Model</th>
+                        <th class="text-center">Quantity</th>
+                    </tr>
+                    </thead>    
+                    <tbody>
+                    @foreach ($Items as $Item)
+                        <tr>
+                            <td class="text-center">{{$loop->iteration}}</td>
+                            <td >{{ $Item->AssetModels->Model_category }} - {{ $Item->AssetModels->Model_name }}</td>
+                            <td class="text-center">{{ $Item->Qty }}</td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
             </div>
-            <div class="col-xs-6 col-sm-6 col-md-6">
-                <div class="form-group">
-                    <strong>Jumlah:</strong>
-                    <input type="text" readonly name="Qty" class="form-control" value="{{ $AssetApproval->AssetRequest->Qty}}">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12" >
-                <div class="form-group">
-                    <strong>Keterangan:</strong>
-                    {{-- <input type="text" name="Jabatan" class="form-control" placeholder="Jabatan"> --}}
-                    <textarea class="form-control" disabled style="height:150px"  placeholder="Notes" >{{ $AssetApproval->AssetRequest->Description }}</textarea>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6">
-                <div class="form-group">
-                    <strong>Request By:</strong>
-                    <input type="text" disabled class="form-control" value="{{ $AssetApproval->AssetRequest->Created_by}}">
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6">
-                <div class="form-group">
-                    <strong>Request Date:</strong>
-                    <input type="text" disabled class="form-control" value="{{ $AssetApproval->AssetRequest->Request_date}}">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Contract:</strong>
-                    <select class="form-control" name="Contract_id" id="Contract_id">
-                        <option value = "0">Pilih Contract</option>
-                        @foreach ($Contracts as $Contract)
-                        <option 
-                        <?php if ($Contract->id == $AssetApproval->Contract_id) echo "selected=selected" ?> value="{{ $Contract->id }}">{{ $Contract->Contract_model }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Approval:</strong>
-                    <select class="form-control" name="Approval" id="Approval">
-                        <option <?php if ($AssetApproval->Approval == "0") echo "selected=selected" ?> value = "0">Waiting Approval</option>
-                        <option <?php if ($AssetApproval->Approval == "1") echo "selected=selected" ?> value = "1">Approved</option>
-                        <option <?php if ($AssetApproval->Approval == "2") echo "selected=selected" ?> value = "2">Rejected</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-6 col-sm-6 col-md-6">
-                <div class="form-group">
-                    <strong>Invoice Number:</strong>
-                    <input type="text" name="invoice_number" <?php if($AssetApproval->Approval != "1"){ echo "readonly"; } ?> class="form-control" value="{{ $AssetApproval->invoice_number}}">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12" >
-                <div class="form-group">
-                    <strong>Notes:</strong>
-                    {{-- <input type="text" name="Jabatan" class="form-control" placeholder="Jabatan"> --}}
-                    <textarea class="form-control" style="height:150px" name="Description" placeholder="Notes" >{{ $AssetApproval->Description }}</textarea>
-                </div>
-            </div>
-            <input type="hidden" value="{{ Auth::user()->name }}" name="Approved_by">
-            <input type="hidden" value="{{ $AssetApproval->flag }}" name="flag">
+           
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <form action="{{ route('assetapproval.update',$AssetRequest->id) }}" method="POST">
+                    @csrf
+                    @method('PUT') 
+                        <input type="hidden" value = "1" name="status"/>
+                        <input type="hidden" value="{{ Auth::user()->name }}" name="approved_by">
+                        <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Are you sure to approve this data?')">Approve</button>
+                </form>
+                <form action="{{ route('assetapproval.update',$AssetRequest->id) }}" method="POST">
+                    @csrf
+                    @method('PUT') 
+                        <input type="hidden" value = "2" name="status"/>
+                        <input type="hidden" value="{{ Auth::user()->name }}" name="approved_by">
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to reject this data?')">Reject</button>
+                </form>
             </div>
+           
         </div>
 
-    </form> 
+
+
+</div>
+
 @endsection

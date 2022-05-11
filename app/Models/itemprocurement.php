@@ -5,17 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AssetModel extends Model
+class itemprocurement extends Model
 {
     use HasFactory;
-    protected $table = 'asset_models';
+    protected $table = 'item_procurements';
     protected $primaryKey = 'id';
-    
+
     protected $fillable = [
-        'Model_name','Model_category'
+        'item_id', 'approval_id', 'Qty'
     ];
-    public function Assets()
+
+    public function itemrequest()
     {
-        return $this->hasMany('App\Models\Asset','asset_model_id','id');
+        return $this->hasOne('App\Models\itemrequest','id','item_id');
     }
+
 }

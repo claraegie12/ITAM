@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Asset;
 use App\Models\AssetApproval;
+use App\Models\AssetModel;
 use Carbon\Carbon;
 
 class AssetControllers extends Controller
@@ -17,12 +18,13 @@ class AssetControllers extends Controller
     public function index()
     {
         //
-        $Assets = AssetApproval::where([
-            ['Approval', '=', '1'],
-            ['flag', '=', '1']
-        ])->OrderBy('id')->get();
+        // $Assets = AssetApproval::where([
+        //     ['Approval', '=', '1'],
+        //     ['flag', '=', '1']
+        // ])->OrderBy('id')->get();
+        $Models = AssetModel::get();
         
-        return view('asset.index', compact('Assets'));
+        return view('asset.index', compact('Models'));
     }
 
     /**
@@ -72,9 +74,10 @@ class AssetControllers extends Controller
     public function show($id)
     {
         //
-        $AssetApproval = AssetApproval::find($id);
-        $Asset = Asset::where('asset_approval_id','=',$id)->first();
-        return view('asset.create', compact('AssetApproval','Asset'));
+        // $AssetApproval = AssetApproval::find($id);
+        // $Asset = Asset::where('asset_approval_id','=',$id)->first();
+        $Model = AssetModel::find($id);
+        return view('asset.show', compact('Model'));
     }
 
     /**
@@ -108,6 +111,15 @@ class AssetControllers extends Controller
     public function update(Request $request, $id)
     {
         //
+        Asset::where('id', $id)->update([
+            'Power' => $request->Power, 
+            'Width' => $request->Width, 
+            'Height' => $request->Height,
+            'Serial_number' => $request->Serial_number,
+            'Jenis_asset' => "Ready"
+        ]);
+        return redirect()->route('asset.show',$request->asset_model_id)->with('succes','Update Data Success');
+
     }
 
     /**

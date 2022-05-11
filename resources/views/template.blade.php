@@ -60,23 +60,33 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('assetrequest') ? 'active' : '') }} {{ (Request::is('assetrequest/*') ? 'active' : '') }}" href="{{ route('assetrequest.index') }}">
+                    <a class="nav-link {{ (Request::is('asset') ? 'active' : '') }} {{ (Request::is('asset/*') ? 'active' : '') }}" href="{{ route('asset.index') }}">
+                    <span class="nav-link-text ms-1">List Asset</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (Request::is('assetrequest') ? 'active' : '') }} {{ (Request::is('assetrequest/*') ? 'active' : '') }} {{ (Request::is('itemrequest') ? 'active' : '') }} {{ (Request::is('itemrequest/*') ? 'active' : '') }}" href="{{ route('assetrequest.index') }}">
                         <span class="nav-link-text ms-1">Asset Request</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link {{ (Request::is('assetapproval') ? 'active' : '') }} {{ (Request::is('assetapproval/*') ? 'active' : '') }}" href="{{ route('assetapproval.index') }}">
                         <span class="nav-link-text ms-1">Request Verification</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
-                    <span class="nav-link-text ms-1">Purchase Submission</span>
+                    <a class="nav-link {{ (Request::is('purchaserequest') ? 'active' : '') }} {{ (Request::is('purchaserequest/*') ? 'active' : '') }}" href="{{ route('purchaserequest.index') }}">
+                    <span class="nav-link-text ms-1">Request Procurement</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link {{ (Request::is('itempurchase') ? 'active' : '') }} {{ (Request::is('itempurchase/*') ? 'active' : '') }}" href="{{ route('itempurchase.index') }}">
                     <span class="nav-link-text ms-1">Purchase Verification</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ (Request::is('procurement') ? 'active' : '') }} {{ (Request::is('procurement/*') ? 'active' : '') }}" href="{{ route('procurement.index') }}">
+                    <span class="nav-link-text ms-1">Procurement</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -122,10 +132,14 @@
                         Office
                     @elseif(Request::is('home'))
                         Dashboard
-                    @elseif(Request::is('assetmodel','assetmodel/*','assetrequest','assetrequest/*'))
+                    @elseif(Request::is('assetmodel','assetmodel/*','assetrequest','assetrequest/*','itemrequest','itemrequest/*','assetapproval','assetapproval/*'))
                         Asset
                     @elseif(Request::is('vendor', 'vendor/*', 'contract', 'contract/*'))
                         Agreement
+                    @elseif(Request::is('procurement', 'procurement/*','asset','asset/*'))
+                        Asset
+                    @elseif(Request::is('purchaserequest', 'purchaserequest/*','itempurchase', 'itempurchase/*'))
+                        Asset
                     @endif
                 </li>
                 </ol>
@@ -140,8 +154,18 @@
                         Dashboard
                     @elseif(Request::is('assetmodel','assetmodel/*'))
                         Asset Model
-                    @elseif(Request::is('assetrequest','assetrequest/*'))
+                    @elseif(Request::is('assetrequest','assetrequest/*','itemrequest','itemrequest/*'))
                         Asset Request
+                    @elseif(Request::is('assetapproval', 'assetapproval/*'))
+                        Asset Procurement
+                    @elseif(Request::is('purchaserequest', 'purchaserequest/*'))
+                        Request Procurement
+                    @elseif(Request::is('itempurchase', 'itempurchase/*'))
+                        Approval Procurement
+                    @elseif(Request::is('procurement', 'procurement/*'))
+                        Procurement
+                    @elseif(Request::is('asset','asset/*'))
+                        Asset
                     @elseif(Request::is('vendor', 'vendor/*'))
                         Vendor
                     @elseif(Request::is('contract', 'contract/*'))
@@ -162,15 +186,9 @@
                 </li>
                 @guest
                     <li class="nav-item d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
+                        <a href="{{ route('login') }}" class="nav-link text-body font-weight-bold px-0">
                         <i class="fa fa-bell me-sm-1"></i>
                         <span class="d-sm-inline d-none">Sign In</span>
-                        </a>
-                    </li>
-                    <li class="nav-item px-3 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-body font-weight-bold ps-0">
-                        <i class="fa fa-user me-sm-1"></i>
-                        <span class="d-sm-inline d-none">Register</span>
                         </a>
                     </li>
                 @else

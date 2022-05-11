@@ -64,7 +64,7 @@
                             @csrf
                             @method('DELETE')
                             <a class="btn btn-info btn-sm" href="{{ route('assetrequest.show',$AssetRequest->id) }}">Edit</a>
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to remove this data?')">Remove</button>
                         </form>
                         @else
                         <a class="btn btn-info btn-sm" href="{{ route('itemrequest.show',$AssetRequest->id) }}">Details</a>
