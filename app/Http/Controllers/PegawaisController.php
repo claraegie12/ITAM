@@ -61,7 +61,7 @@ class PegawaisController extends Controller
             'name' => $request->Name,
             'email' => $request->Email,
             'password' => Hash::make('12345678'),
-            'role' =>$request->bagian
+            'role' => $request->bagian
         ]);
 
         pegawai::create([
