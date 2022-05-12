@@ -12,7 +12,7 @@ class AssetSupport extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'Asset_id', 'Warranty_expired', 'Support_group', 'Support_by', 'model_id'
+        'Asset_id', 'Warranty_expired', 'Support_group', 'Support_by', 'model_id', 'flag'
     ];
 
     public function Asset()

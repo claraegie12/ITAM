@@ -114,7 +114,9 @@ class ProcurementControllers extends Controller
                         'Asset_id' => $Asset->id, 
                         'Warranty_expired' => Carbon::now()->addYears(3)->format('Y-m-d'),
                         'Support_group' => $AssetApproval->Contract->Vendor->id,  
-                        'Support_by' => 'IT'
+                        'Support_by' => 'IT',
+                        'flag' => 0,
+                        'model_id'=> $Item->itemrequest->AssetModels->id
                     ]);
                 }
             };

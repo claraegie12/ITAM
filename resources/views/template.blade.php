@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        ITAM 1
+        ITAM
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -26,12 +26,13 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html " target="_blank">
               <img src="{{ asset('assets/img/logo-ct.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-              <span class="ms-1 font-weight-bold">ITAM</span>
+              <span class="ms-1 font-weight-bold">ITAM - {{Auth::user()->role}}</span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
         <div class="sidenav-main" id="sidenav-main">
             <ul class="navbar-nav">
+              @if(Auth::user()->role == "HR" || Auth::user()->role == "A")
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Office</h6>
                 </li>
@@ -50,10 +51,18 @@
                         <span class="nav-link-text ms-1">Branch</span>
                     </a>
                 </li>
-
+              @endif
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Asset</h6>
                 </li>
+                @if(Auth::user()->role == "HR" || Auth::user()->role == "A" || Auth::user()->role == "IT")
+                <li class="nav-item">
+                    <a class="nav-link {{ (Request::is('assetrequest') ? 'active' : '') }} {{ (Request::is('assetrequest/*') ? 'active' : '') }} {{ (Request::is('itemrequest') ? 'active' : '') }} {{ (Request::is('itemrequest/*') ? 'active' : '') }}" href="{{ route('assetrequest.index') }}">
+                        <span class="nav-link-text ms-1">Asset Request</span>
+                    </a>
+                </li>
+                @endif
+                @if(Auth::user()->role == "A" || Auth::user()->role == "IT")
                 <li class="nav-item">
                     <a class="nav-link {{ (Request::is('assetmodel') ? 'active' : '') }} {{ (Request::is('assetmodel/*') ? 'active' : '') }}" href="{{ route('assetmodel.index') }}">
                     <span class="nav-link-text ms-1">Asset Model</span>
@@ -62,11 +71,6 @@
                 <li class="nav-item">
                     <a class="nav-link {{ (Request::is('asset') ? 'active' : '') }} {{ (Request::is('asset/*') ? 'active' : '') }}" href="{{ route('asset.index') }}">
                     <span class="nav-link-text ms-1">List Asset</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('assetrequest') ? 'active' : '') }} {{ (Request::is('assetrequest/*') ? 'active' : '') }} {{ (Request::is('itemrequest') ? 'active' : '') }} {{ (Request::is('itemrequest/*') ? 'active' : '') }}" href="{{ route('assetrequest.index') }}">
-                        <span class="nav-link-text ms-1">Asset Request</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -79,11 +83,20 @@
                     <span class="nav-link-text ms-1">Request Procurement</span>
                     </a>
                 </li>
+                @endif
+                @if(Auth::user()->role == "A" || Auth::user()->role == "FINANCE")
                 <li class="nav-item">
                     <a class="nav-link {{ (Request::is('itempurchase') ? 'active' : '') }} {{ (Request::is('itempurchase/*') ? 'active' : '') }}" href="{{ route('itempurchase.index') }}">
                     <span class="nav-link-text ms-1">Purchase Verification</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link {{ (Request::is('disposalrequest') ? 'active' : '') }} {{ (Request::is('disposalrequest/*') ? 'active' : '') }}" href="{{ route('disposalrequest.index') }}">
+                  <span class="nav-link-text ms-1">Disposal Verification</span>
+                  </a>
+              </li>
+                @endif
+                @if(Auth::user()->role == "A" || Auth::user()->role == "IT")
                 <li class="nav-item">
                     <a class="nav-link {{ (Request::is('procurement') ? 'active' : '') }} {{ (Request::is('procurement/*') ? 'active' : '') }}" href="{{ route('procurement.index') }}">
                     <span class="nav-link-text ms-1">Procurement</span>
@@ -104,19 +117,26 @@
                     <span class="nav-link-text ms-1">Disposal List</span>
                     </a>
                 </li>
+                @endif
+                @if(Auth::user()->role == "A" || Auth::user()->role == "IT" || Auth::user()->role == "FINANCE")
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Agreement</h6>
                 </li>
+                @if(Auth::user()->role == "A" || Auth::user()->role == "IT")
                 <li class="nav-item">
                     <a class="nav-link {{ (Request::is('vendor') ? 'active' : '') }} {{ (Request::is('vendor/*') ? 'active' : '') }}" href="{{ route('vendor.index') }}">
                     <span class="nav-link-text ms-1">Vendor</span>
                     </a>
                 </li>
+                @endif
+                @if(Auth::user()->role == "A" || Auth::user()->role == "FINANCE")
                 <li class="nav-item">
                     <a class="nav-link {{ (Request::is('contract') ? 'active' : '') }} {{ (Request::is('contract/*') ? 'active' : '') }}" href="{{ route('contract.index') }}">
                     <span class="nav-link-text ms-1">Contract</span>
                     </a>
                 </li>
+                @endif
+                @endif
             </ul>
         </div>
     </aside>

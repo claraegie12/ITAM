@@ -60,7 +60,7 @@
                     <th>Asset Code</th>
                     <th>Serial Number</th>
                     <th>Disposal Date</th>
-                    
+                    <th>Resale Price</th>
                 </tr>
                 @foreach ($Models as $Asset)
                 <tr>
@@ -68,6 +68,7 @@
                     <td>{{ isset($Asset->AssetApproval->invoice_number) ? $Asset->AssetApproval->invoice_number : "AA"}} - {{ $Asset->id }}</td>
                     <td>{{ $Asset->Serial_number }}</td>
                     <td>{{ $Asset->disposal_date }}</td>
+                    <td>{{ number_format($Asset->resale_price) }}</td>
                 </tr>
                 @endforeach
             </table>

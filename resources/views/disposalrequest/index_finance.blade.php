@@ -5,9 +5,7 @@
         <div class="row">
         <div class="col-lg-6 col-7">
             <h6>List Disposal Request</h6>
-            <p class="text-sm mb-0">
-                <a class="btn btn-success" href="{{ route('disposalrequest.create') }}">Add New Disposal</a>
-            </p>
+            
             @if ($message = Session::get('succes'))
             <p class="text-sm mb-0">
                 <i class="fa fa-check text-info" aria-hidden="true"></i>
@@ -23,10 +21,11 @@
                 <thead>
                     <tr>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                        <th class="text-right text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Model</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Resale Price</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Qty</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Model</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Resale Price</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Qty</th>
                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                        <th colspan=2 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +43,7 @@
                     </td>
                     <td>
                         <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm">{{ number_format($Disposal->resale_price) }}</h6>
+                            <h6 class="mb-0 text-sm">{{ number_format($Disposal->resale_price,0) }}</h6>
                         </div>
                     </td>
                     <td>
@@ -63,7 +62,7 @@
                             @endif
                         </div>
                     </td>
-{{-- 
+
                     <td class="text-center">
                         <div class="d-flex flex-column justify-content-center">
                             @if ( $Disposal->Approval == '0' )
@@ -89,7 +88,7 @@
                             </form>
                             @endif
                         </div>
-                    </td> --}}
+                    </td>
                 </tr>
                 @endforeach
                 </tbody>

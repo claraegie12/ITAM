@@ -9,6 +9,8 @@ use App\Models\DisposalAsset;
 use App\Models\AssetModel;
 use App\Models\AssetSupport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class DisposalRequestControllers extends Controller
 {
@@ -20,8 +22,18 @@ class DisposalRequestControllers extends Controller
     public function index()
     {
         //
-        $Disposals = DisposalRequest::get();
-        return view('disposalrequest.index', compact('Disposals'));
+        $id = Auth::id();
+
+        $User = User::find($id);
+        if($User->role == 'IT'){
+            $Disposals = DisposalRequest::get();
+            return view('disposalrequest.index', compact('Disposals'));
+        }
+        else{
+            $Disposals = DisposalRequest::get();
+            return view('disposalrequest.index_finance', compact('Disposals'));
+        }
+
     }
 
     /**
@@ -45,51 +57,132 @@ class DisposalRequestControllers extends Controller
      */
     public function store(Request $request)
     {
-        // echo $request->Broke;
-
-        DisposalRequest::create([
-            'Asset_id' => $request->Asset_id, 
-            'Notes' => $request->Notes,
-            'Approval' => '0', 
-            'Approval_date' => Carbon::now()->format('Y-m-d'), 
-            'Approval_by' => ' ', 
-            'Disposal_date' => Carbon::now()->format('Y-m-d'), 
-            'Disposal_by' => $request->Disposal_by
-        ]);
-
         if(isset($request->broke) == "on"){
+            $total = $request->total_broke + $request->total_exp;
+        }
+        else{
+            $total = $request->total_exp;
+        }
+
+        if($total < 100){
+            DisposalRequest::create([
+                'Asset_id' => $request->Asset_id, 
+                'Notes' => $request->Notes,
+                'Approval' => '0', 
+                'Approval_date' => Carbon::now()->format('Y-m-d'), 
+                'Approval_by' => ' ', 
+                'Disposal_date' => Carbon::now()->format('Y-m-d'), 
+                'Disposal_by' => $request->Disposal_by,
+                'resale_price' => $request->resale_price,
+                'qty' => $total
+            ]);
+            $A = Asset::where([
+                ['asset_model_id', '=',$request->Asset_id],['Jenis_asset' ,'=', 'Broke']
+            ])->get();
+            if(isset($A)){
+                if(isset($request->broke) == "on"){
+                    AssetSupport::where([
+                        ['model_id','=', $request->Asset_id],
+                        ['flag', '=' , 1],
+                        ['Warranty_expired','<', Carbon::now()]
+                    ])->update([
+                        'flag' => '2'
+                    ]);
+                }
+                else{
+                    AssetSupport::where([
+                        ['model_id','=', $request->Asset_id],
+                        ['flag', '=' , 1],
+                        ['Warranty_expired','<', Carbon::now()]
+                    ])->update([
+                        'flag' => '0'
+                    ]);
+    
+                        Asset::where([
+                            ['asset_model_id', '=',$request->Asset_id],['Jenis_asset','=', 'Broke']
+                        ])
+                        ->update([
+                            'Jenis_asset' => 'On Service'
+                        ]);
+                }
+                
+            }
+    
             AssetSupport::where([
                 ['model_id','=', $request->Asset_id],
-                ['flag', '=' , 1],
+                ['flag', '=' , 0],
                 ['Warranty_expired','<', Carbon::now()]
             ])->update([
                 'flag' => '2'
             ]);
+    
+            
         }
         else{
-            AssetSupport::where([
+            DisposalRequest::create([
+                'Asset_id' => $request->Asset_id, 
+                'Notes' => $request->Notes,
+                'Approval' => '1', 
+                'Approval_date' => Carbon::now()->format('Y-m-d'), 
+                'Approval_by' => 'SYSTEM', 
+                'Disposal_date' => Carbon::now()->format('Y-m-d'), 
+                'Disposal_by' => $request->Disposal_by,
+                'resale_price' => $request->resale_price,
+                'qty' => $total
+            ]);
+
+            $Items = AssetSupport::where([
                 ['model_id','=', $request->Asset_id],
-                ['flag', '=' , 1],
+                ['flag', '=' , 0],
                 ['Warranty_expired','<', Carbon::now()]
-            ])->update([
-                'flag' => '0'
-            ]);
-            Asset::where([
-                ['asset_model_id', '=',$request->Asset_id],['Jenis_asset' => 'Broke']
-            ])
-            ->update([
-                'Jenis_asset' => 'On Service'
-            ]);
+            ])->get();
+
+            foreach($Items as $Item){
+                Asset::where('id', $Item->Asset_id)->update([
+                    'Jenis_asset' => "Disposed",
+                    'disposal_date' => Carbon::now()->format('Y-m-d'), 
+                    'resale_price' => $request->resale_price
+                    ]);
+                $Item->delete();
+            }
+
+            $A = Asset::where([
+                ['asset_model_id', '=',$request->Asset_id],['Jenis_asset' ,'=', 'Broke']
+            ])->get();
+            if(isset($A)){
+                if(isset($request->broke) == "on"){
+                    $Brokes = AssetSupport::where([
+                        ['model_id','=', $request->Asset_id],
+                        ['flag', '=' , 1],
+                        ['Warranty_expired','<', Carbon::now()]
+                    ])->get();
+                    foreach($Brokes as $Broke){
+                        Asset::where('id', $Item->Asset_id)->update([
+                            'Jenis_asset' => "Disposed",
+                            'disposal_date' => Carbon::now()->format('Y-m-d'), 
+                            ]);
+                        $Broke->delete();
+                    }
+                }
+                else{
+                    AssetSupport::where([
+                        ['model_id','=', $request->Asset_id],
+                        ['flag', '=' , 1],
+                        ['Warranty_expired','<', Carbon::now()]
+                    ])->update([
+                        'flag' => '0'
+                    ]);
+    
+                    Asset::where([
+                        ['asset_model_id', '=',$request->Asset_id],['Jenis_asset','=', 'Broke']
+                    ])
+                    ->update([
+                        'Jenis_asset' => 'On Service'
+                    ]);
+                }
+            }
         }
-
-        AssetSupport::where([
-            ['model_id','=', $request->Asset_id],
-            ['flag', '=' , 0],
-            ['Warranty_expired','<', Carbon::now()]
-        ])->update([
-            'flag' => '2'
-        ]);
-
+        
         return redirect()->route('disposalrequest.index')->with('succes','Success Create Disposal Request');
 
     }
@@ -103,11 +196,7 @@ class DisposalRequestControllers extends Controller
     public function show($id)
     {
         //
-        //$Disposal = DisposalRequest::find($id);
         $Model = AssetModel::find($id);
-
-        //echo $Models[0];
-        //return view('asset.show', compact('Model','Models'));
         return view('disposalrequest.show', compact('Model',));
     }
 
@@ -139,6 +228,7 @@ class DisposalRequestControllers extends Controller
             'Approval_date' => Carbon::now()->format('Y-m-d'), 
             'Approval_by' => $request->Approval_by,
         ]);
+        $Request = DisposalRequest::find($id);
         if ($request->Approval == "1"){
             $Items = AssetSupport::where([
                 ['model_id','=', $request->Asset_id],
@@ -149,19 +239,20 @@ class DisposalRequestControllers extends Controller
                 Asset::where('id', $Item->Asset_id)->update([
                     'Jenis_asset' => "Disposed",
                     'disposal_date' => Carbon::now()->format('Y-m-d'), 
+                    'resale_price' => $Request->resale_price, 
                     ]);
                 $Item->delete();
             }
 
-            DisposalAsset::create([
-                'Asset_id' => $request->Asset_id, 
-                'Disposal_id' => $id,
-                'Disposal_reason' => ' ', 
-                'Resale_price' => '0', 
-                'Retired_date' => Carbon::now()->format('Y-m-d'), 
-                'Schedule_Retired' => Carbon::now()->format('Y-m-d'), 
-                'Created_by' => $request->Approval_by
-            ]);
+            // DisposalAsset::create([
+            //     'Asset_id' => $request->Asset_id, 
+            //     'Disposal_id' => $id,
+            //     'Disposal_reason' => ' ', 
+            //     'Resale_price' => '0', 
+            //     'Retired_date' => Carbon::now()->format('Y-m-d'), 
+            //     'Schedule_Retired' => Carbon::now()->format('Y-m-d'), 
+            //     'Created_by' => $request->Approval_by
+            // ]);
         }
         else{
             AssetSupport::where([

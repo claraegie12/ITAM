@@ -32,7 +32,7 @@
                     <td class="text-center">
                         @if( count($Model->Total_dis)  >= 100)
                             {{-- create disposal --}}
-                            <a class="btn btn-warning btn-sm" href="{{ route('disposalrequest.show',$Model->id) }}">Details</a>
+                            <a class="btn btn-danger btn-sm" href="{{ route('disposalrequest.show',$Model->id) }}">Review</a>
                         @elseif (count($Model->Total_dis) > 0)
                             <a class="btn btn-info btn-sm" href="{{ route('disposalrequest.show',$Model->id) }}">Review</a>
                         @endif

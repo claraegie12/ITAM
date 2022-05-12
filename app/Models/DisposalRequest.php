@@ -12,7 +12,7 @@ class DisposalRequest extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'Asset_id','Notes','Approval', 'Approval_date', 'Approval_by', 'Disposal_date', 'Disposal_by'
+        'Asset_id','Notes','Approval', 'Approval_date', 'Approval_by', 'Disposal_date', 'Disposal_by', 'resale_price', 'qty'
     ];
 
     public function AssetModel()

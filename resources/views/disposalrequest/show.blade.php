@@ -48,20 +48,26 @@
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <strong>Broke</strong>
-                    <input type="text" name="Height" readonly class="form-control" value="{{ isset($Model->Assets_broke) ? count($Model->Assets_broke) : 0 }}">
+                    <input type="text" name="total_broke" readonly class="form-control" value="{{ isset($Model->Assets_broke) ? count($Model->Assets_broke) : 0 }}">
                 </div>
             </div>
             
             <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                     <strong>Expired</strong>
-                    <input type="text" name="Height" readonly class="form-control" value="{{ isset($Model->Asset_dis) ? count($Model->Asset_dis) : 0 }}">
+                    <input type="text" name="total_exp" readonly class="form-control" value="{{ isset($Model->Asset_dis) ? count($Model->Asset_dis) : 0 }}">
                 </div>
             </div>
         </div>
         <div class="form-check form-switch ps-0">
             <input class="form-check-input ms-auto" type="checkbox" id="Broke" name="Broke" checked>
             <label class="form-check-label text-body ms-3 text-truncate w-80 mb-0" for="flexSwitchCheckDefault">Disposed Broken Asset?</label>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12" >
+            <div class="form-group">
+                <p>Resale Price per Item</p>
+                <input type="text" name="resale_price" class="form-control" placeholder="Resale Price">
+            </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">

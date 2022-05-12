@@ -52,6 +52,7 @@ class PurchaseRequestControllers extends Controller
                 'Contract_id' => $request->Contract_id, 
                 'Description' => $request->Description
             ]);
+            $id = $request->approval_id;
         }
         else{
             $Approvals = AssetApproval::create([
@@ -77,9 +78,10 @@ class PurchaseRequestControllers extends Controller
                     'Qty'=> '0'
                 ]);
             }
+            $id = $Approvals->id;
         }
         
-        return redirect()->route('purchaserequest.show',$request->approval_id)->with('succes','Input Data Success');
+        return redirect()->route('purchaserequest.show',$id)->with('succes','Input Data Success');
     }
 
     /**

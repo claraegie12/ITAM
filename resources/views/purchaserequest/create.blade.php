@@ -73,11 +73,9 @@
             </div>
         </div>
         <input type="hidden" value="{{ $AssetRequest->id }}" name="Request_id">
-        @if(isset($AssetRequest->AssetApproval))
-            <input type="hidden" value="{{$AssetRequest->AssetApproval->id}}"" name="approval_id">
-        @else
-        <input type="hidden" value="0" name="approval_id">
-        @endif
+
+        <input type="hidden" value="{{ isset($AssetRequest->AssetApproval->id) ? $AssetRequest->AssetApproval->id : 0 }}"" name="approval_id">
+     
         {{-- <input type="hidden" value="0" name="Qty">  --}}
         <input type="hidden" value="{{ Auth::user()->name }}" name="request_by">
         <div class="col-xs-12 col-sm-12 col-md-12 text-center">
