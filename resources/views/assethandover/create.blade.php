@@ -25,10 +25,33 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <p class="text-sm mb-0">List Asset</p>
-                    <input type="text" name="Name" class="form-control" placeholder="Division Name">
+                    <strong>List Asset</strong>
+                    <select class="form-control" name="Asset_id" id="Asset_id">
+                        <option value = "0">Choose Asset</option>
+                        @foreach ($Assets as $Asset)
+                        <option value="{{ $Asset->id }}">{{ $Asset->AssetModel->Model_name }} - {{ $Asset->Serial_number }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>List Pegawai</strong>
+                    <select class="form-control" name="Pegawai_id" id="Pegawai_id">
+                        <option value = "0">Choose Pegawai</option>
+                        @foreach ($Pegawais as $Pegawai)
+                        <option value="{{ $Pegawai->id }}">{{ $Pegawai->Name }} - {{ $Pegawai->Branches->Name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <p class="text-sm mb-0">Notes</p>
+                    <textarea class="form-control" style="height:150px" name="Handover_notes" placeholder="Handover Notes"></textarea> 
+                </div>
+            </div>
+            <input type="hidden" value="{{ Auth::user()->name }}" name="Handover_by">
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-info">Submit</button>
                 <a class="btn btn-secondary" href="{{ route('assethandover.index') }}">Back</a>

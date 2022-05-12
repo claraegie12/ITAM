@@ -17,29 +17,46 @@
 
                     <tr>
                         <th width="20px" class="text-center">No</th>
-                        <th width="200px" class="text-center">Model</th>
-                        <th width="280px" class="text-center">From</th>
-                        <th width="100px" class="text-center">To</th>
-                        <th width="280px" class="text-center">Date</th>
-                        <th width="100px" class="text-center">Action</th>
+                        <th >Model</th>
+                        <th >From</th>
+                        <th >To</th>
+                        <th >Date</th>
+                        <th width="100px" class="text-center">Status</th>
                     </tr>
                     @foreach ($Handovers as $Handover)
                     <tr>
-                        {{-- <td class="text-center">{{$loop->iteration}}</td>
-                        <td>{{ $Asset->AssetModel->Model_category }}</td>
-                        <td>{{ $Asset->AssetModel->Model_name }}</td>
-                        <td class="text-center">{{ $Asset->Serial_number }}</td>
-                        <td>Power : {{ $Asset->Power }}, Width : {{ $Asset->Width }}, Height : {{ $Asset->Height }}</td>
+                        <td class="text-center">{{$loop->iteration}}</td>
+                        <td>{{ $Handover->Asset->AssetModel->Model_category }} - {{ $Handover->Asset->AssetModel->Model_name }}</td>
+                        <td>{{ $Handover->Handover_by }}</td>
+                        <td>{{ isset($Handover->Pegawai->Name) ?  $Handover->Pegawai->Name : ''}}</td>
+                        <td>
+                            @if ($Handover->handover_approval == '1')
+                                {{$Handover->Handover_date}}
+                            @endif
+                        </td>
                         <td class="text-center">
-                            <?php if($Asset->Jenis_asset == "Ready") { ?>
-                                <a class="btn btn-primary btn-sm" href="{{ route('assethandover.edit',$Asset->id) }}">Create Handover</a>
-                                <a class="btn btn-warning btn-sm" href="{{ route('disposalrequest.edit',$Asset->id) }}">Disposal Request</a>
-                            <?php } else if($Asset->Jenis_asset == "Owned") { ?>
-                                <a class="btn btn-info btn-sm" href="{{ route('assethandover.show',$Asset->id) }}">Details</a>
-                            <?php } ?>
-                            {{-- <a class="btn btn-info btn-sm" href="{{ route('pegawai.show',$pegawai->id) }}">Details</a> --}}
-                            
-                        </td> --}}
+                            @if ($Handover->flag == '1' && $Handover->return_approval <> '1')
+                            <form action="{{ route('assethandover.update',$Handover->id) }}" method="POST">
+                                @csrf
+                                @method('PUT') 
+                                    <input type="hidden" value = "2" name="handover_approval"/>
+                                    <input type="hidden" value = "1" name="flag"/>
+                                    <input type="hidden" value = "{{$Handover->Pegawai_id}}" name="Pegawai_id"/>
+                                    <input type="hidden" value = "1" name="return_approval"/>
+                                    <input type="hidden" value="{{ Auth::user()->name }}" name="return_to">
+                                    <input type="hidden" value = "{{$Handover->Asset_id}}" name="Asset_id"/>
+                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure to return this asset?')">Accept</button>
+                            </form>
+                            @elseif ($Handover->flag == '1' && $Handover->return_approval == '1')
+                                Return to IT
+                            @elseif ($Handover->handover_approval == '0')
+                                Waiting Approval
+                            @elseif ($Handover->handover_approval == '1')
+                                Approved
+                            @elseif ($Handover->handover_approval == '2')
+                                Reject
+                            @endif
+                        </td> 
                     </tr>
                     @endforeach
                 </table>

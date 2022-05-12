@@ -111,7 +111,7 @@
                         <td>{{ isset($Asset->AssetApproval->invoice_number) ?$Asset->AssetApproval->invoice_number : "AA"}}  - {{ $Asset->id }}</td>
                         <td>{{ $Asset->Serial_number }}</td>
                         <td>{{ isset($Asset->AssetSupport->Warranty_expired) ? $Asset->AssetSupport->Warranty_expired : ""}}</td>
-                        <td>{{ $Asset->Jenis_asset }}</td>
+                        <td>{{ $Asset->Jenis_asset }} {{ isset($Asset->AssetHandover->pegawai->Name) ? 'by ' . $Asset->AssetHandover->pegawai->Name : '' }}</td>
                         <td>
                         <form action="{{ route('assetsupport.update',$Asset->id) }}" method="POST">
                             @csrf

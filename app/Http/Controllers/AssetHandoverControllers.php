@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Asset;
-use App\Models\Pegawai;
+use App\Models\pegawai;
 use App\Models\AssetHandover;
 use App\Models\Handover_history;
+use Carbon\Carbon;
 
 class AssetHandoverControllers extends Controller
 {
@@ -33,7 +34,8 @@ class AssetHandoverControllers extends Controller
     {
         //
         $Assets = Asset::where('Jenis_asset','=','Ready')->get();
-        return view('assethandover.create', compact('Assets'));
+        $Pegawais = pegawai::where('flags','<>','2')->get();
+        return view('assethandover.create', compact('Assets','Pegawais'));
     }
 
     /**
@@ -49,16 +51,19 @@ class AssetHandoverControllers extends Controller
             'Asset_id' => $request->Asset_id, 
             'Pegawai_id' => $request->Pegawai_id,
             'Handover_notes' => $request->Handover_notes,
-            'Handover_date' => $request->Handover_date,
+            'Handover_date' =>  Carbon::now()->format('Y-m-d'), 
             'Handover_by' => $request->Handover_by,
-            'flag' => '0'
+            'flag' => '0',
+            'handover_approval' => 0,
+            'return_approval' => ' ',
+            'return_to' => ' '
         ]);
-
+      
         Asset::where('id', $request->Asset_id)->update([
             'jenis_asset' => 'Owned'
         ]);
 
-        return redirect()->route('assethandover.index')->with('succes','Data Berhasil di Update');
+        return redirect()->route('assethandover.index')->with('succes','Input Data Success');
     }
 
     /**
@@ -70,9 +75,12 @@ class AssetHandoverControllers extends Controller
     public function show($id)
     {
         //
-        $Asset = Asset::find($id);
-        //$pegawais = pegawai::OrderBy('Name')->get();
-        return view('assethandover.show', compact('Asset'));
+        $Pegawai = pegawai::where('User_id','=',$id)->first();
+        $Handovers = AssetHandover::where([
+            ['Pegawai_id','=',$Pegawai->id]
+        ])->get();
+        //echo $Handovers;
+        return view('assethandover.show', compact('Handovers'));
     }
 
     /**
@@ -99,6 +107,41 @@ class AssetHandoverControllers extends Controller
     public function update(Request $request, $id)
     {
         //
+        if($request->return_approval == "0"){
+            if($request->flag == "0"){
+                AssetHandover::where('id', $id)->update([
+                    'handover_approval' => $request->handover_approval
+                ]);
+        
+                if($request->handover_approval == "2"){
+                    Asset::where('id', $request->Asset_id)->update([
+                        'jenis_asset' => 'Ready'
+                    ]);
+                }
+            }
+            else{
+                AssetHandover::where('id', $id)->update([
+                    'flag' => $request->flag
+                ]);
+            }
+            $Handovers = AssetHandover::where([
+                ['Pegawai_id','=',$request->Pegawai_id]
+            ])->get();
+            //echo $Handovers;
+            return view('assethandover.show', compact('Handovers'));
+        }
+        else{
+            AssetHandover::where('id', $id)->update([
+                'return_approval' => $request->return_approval,
+                'return_to' => $request->return_to,
+                'return_date' => Carbon::now()->format('Y-m-d'), 
+            ]);
+            Asset::where('id', $request->Asset_id)->update([
+                'jenis_asset' => 'Ready'
+            ]);
+            return redirect()->route('assethandover.index')->with('succes','Input Data Success');
+        }
+        return redirect()->route('assethandover.index');
     }
 
     /**
