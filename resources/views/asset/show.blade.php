@@ -102,21 +102,36 @@
                             <td>{{ $Asset->Jenis_asset }}</td>
                             <td>
                                 <input type="hidden" name="asset_model_id" class="form-control" value="{{ $Asset->asset_model_id }}">
-                                <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Are you sure to save this data?')">Edit</button>
+                                <button type="submit" class="btn btn-info btn-sm" onclick="return confirm('Are you sure to save this data?')">Save</button>
                             </td>
                     </form> 
                     @else
+                    
                         <td class="text-center">{{$loop->iteration}}</td>
                         <td>{{ isset($Asset->AssetApproval->invoice_number) ?$Asset->AssetApproval->invoice_number : "AA"}}  - {{ $Asset->id }}</td>
                         <td>{{ $Asset->Serial_number }}</td>
                         <td>{{ isset($Asset->AssetSupport->Warranty_expired) ? $Asset->AssetSupport->Warranty_expired : ""}}</td>
                         <td>{{ $Asset->Jenis_asset }}</td>
                         <td>
+                        <form action="{{ route('assetsupport.update',$Asset->id) }}" method="POST">
+                            @csrf
+                            @method('PUT')
                         @if ($Asset->Jenis_asset == "Broke")
-                            <a class="btn btn-warning" href="{{ route('assetsupport.edit',$Asset->id) }}">Service</a> 
+                            <input type="hidden" name="Jenis_asset" value="On Service">
+                            <input type="hidden" name="flag" value="0">
+                            <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure to update this data?')">Service</button>
+                        @elseif ($Asset->Jenis_asset == "On Service")
+                            <input type="hidden" name="Jenis_asset" value="Ready">
+                            <input type="hidden" name="flag" value="0">
+                            <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure to update this data?')">Done</button>
                         @else
-                            <a class="btn btn-danger" href="{{ route('assetsupport.edit',$Asset->id) }}">Broke</a>
+                            <input type="hidden" name="Jenis_asset" value="Broke">
+                            <input type="hidden" name="flag" value="1">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to update this data?')">Broke</button>
                         @endif
+                        <input type="hidden" name="asset_model_id" class="form-control" value="{{ $Asset->asset_model_id }}">
+
+                        </form>
                         </td>
                     @endif
                     

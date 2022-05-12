@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\DisposalAsset;
+use App\Models\AssetModel;
+use App\Models\Asset;
 
 class DisposalAssetControllers extends Controller
 {
@@ -15,8 +17,9 @@ class DisposalAssetControllers extends Controller
     public function index()
     {
         //
-        $DisposalAssets = DisposalAsset::get();
-        return view('disposal.index', compact('DisposalAssets'));
+        $Models = AssetModel::get();
+        //echo $Models;
+        return view('disposal.index', compact('Models'));
     }
 
     /**
@@ -49,6 +52,13 @@ class DisposalAssetControllers extends Controller
     public function show($id)
     {
         //
+        $Model = AssetModel::find($id);
+        $Models = Asset::where([
+                ['Jenis_asset', '=', 'Disposed'],
+                ['asset_model_id', '=', $id]
+        ])->get();
+        //echo $Models[0];
+        return view('disposal.show', compact('Model','Models'));
     }
 
     /**

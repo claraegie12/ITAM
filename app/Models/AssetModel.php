@@ -31,6 +31,11 @@ class AssetModel extends Model
         return $this->Assets()->where('Jenis_asset','<>', 'Disposed');
     }
 
+    public function Assets_total_disposal()
+    {
+        return $this->Assets()->where('Jenis_asset','=', 'Disposed');
+    }
+
     public function Assets_service()
     {
         return $this->Assets()->where('Jenis_asset','=', 'On Service');

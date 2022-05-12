@@ -15,9 +15,9 @@ class DisposalAsset extends Model
         'Asset_id','Disposal_id','Disposal_reason', 'Resale_price', 'Retired_date', 'Schedule_Retired',  'Created_by'
     ];
 
-    public function Asset()
+    public function AssetModel()
     {
-        return $this->hasOne('App\Models\Asset','id','Asset_id');
+        return $this->hasOne('App\Models\AssetModel','id','Asset_id');
     }
 
     public function DisposalRequest()

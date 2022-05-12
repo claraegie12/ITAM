@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Asset;
+use App\Models\AssetSupport;
+use App\Models\AssetModel;
+use Carbon\Carbon;
 
 class AssetSupportControllers extends Controller
 {
@@ -69,6 +73,13 @@ class AssetSupportControllers extends Controller
     public function update(Request $request, $id)
     {
         //
+        Asset::where('id', $id)->update([
+            'Jenis_asset' => $request->Jenis_asset
+        ]);
+        AssetSupport::where('Asset_id', $id)->update([
+            'flag' => $request->flag
+        ]);
+        return redirect()->route('asset.show',$request->asset_model_id)->with('succes','Update Data Success');
     }
 
     /**

@@ -147,7 +147,9 @@ class DisposalRequestControllers extends Controller
 
             foreach($Items as $Item){
                 Asset::where('id', $Item->Asset_id)->update([
-                    'Jenis_asset' => "Disposed"]);
+                    'Jenis_asset' => "Disposed",
+                    'disposal_date' => Carbon::now()->format('Y-m-d'), 
+                    ]);
                 $Item->delete();
             }
 

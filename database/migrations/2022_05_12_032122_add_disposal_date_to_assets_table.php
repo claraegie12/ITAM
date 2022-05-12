@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterTableContractsChangeCostFormat extends Migration
+class AddDisposalDateToAssetsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AlterTableContractsChangeCostFormat extends Migration
      */
     public function up()
     {
-        Schema::table('contracts', function (Blueprint $table) {
-            $table->decimal('cost', 18, 2)->change();
+        Schema::table('assets', function (Blueprint $table) {
+            //
+            $table->datetime('disposal_date')->nullable();
         });
     }
 
@@ -25,6 +26,9 @@ class AlterTableContractsChangeCostFormat extends Migration
      */
     public function down()
     {
-        
+        Schema::table('assets', function (Blueprint $table) {
+            //
+            $table->datetime('disposal_date')->nullable();
+        });
     }
 }

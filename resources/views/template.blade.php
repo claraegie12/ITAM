@@ -95,12 +95,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ (Request::is('disposal') ? 'active' : '') }} {{ (Request::is('disposal/*') ? 'active' : '') }}" href="{{ route('disposalrequest.index') }}">
+                    <a class="nav-link {{ (Request::is('disposalrequest') ? 'active' : '') }} {{ (Request::is('disposalrequest/*') ? 'active' : '') }}" href="{{ route('disposalrequest.index') }}">
                     <span class="nav-link-text ms-1">Disposal Request</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('pegawai.index') }}">
+                    <a class="nav-link {{ (Request::is('disposal') ? 'active' : '') }} {{ (Request::is('disposal/*') ? 'active' : '') }}" href="{{ route('disposal.index') }}">
                     <span class="nav-link-text ms-1">Disposal List</span>
                     </a>
                 </li>
@@ -140,6 +140,8 @@
                         Asset
                     @elseif(Request::is('purchaserequest', 'purchaserequest/*','itempurchase', 'itempurchase/*'))
                         Asset
+                    @elseif(Request::is( 'disposalrequest','disposalrequest/*','disposal','disposal/*'))
+                        Asset
                     @endif
                 </li>
                 </ol>
@@ -166,6 +168,10 @@
                         Procurement
                     @elseif(Request::is('asset','asset/*'))
                         Asset
+                    @elseif(Request::is( 'disposalrequest','disposalrequest/*'))
+                       Disposal Request
+                    @elseif(Request::is( 'disposal','disposal/*'))
+                       Disposal
                     @elseif(Request::is('assethandover','assethandover/*'))
                         Handover
                     @elseif(Request::is('vendor', 'vendor/*'))
